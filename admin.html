@@ -291,30 +291,7 @@ $("activityForm").addEventListener("submit", async e => {
     await loadContent();
   } catch (error) {
     console.error(error);
-    alert("Gagal menyimpan kegiatan atau mengunggah foto. Periksa Cloud name, preset, dan Firestore Rules.");
-  }
-});
-;
-  const photo = $("activityPhoto").value.trim();
-  if (photo && !/^https?:\/\//i.test(photo)) {
-    alert("URL foto harus diawali https:// atau http://");
-    return;
-  }
-  try {
-    await addDoc(collection(db, "kegiatan"), {
-      judul: $("activityTitle").value.trim(),
-      tanggal: $("activityDate").value,
-      deskripsi: $("activityBody").value.trim(),
-      foto: photo,
-      dibuatPada: serverTimestamp()
-    });
-    e.target.reset();
-    alert("Kegiatan berhasil disimpan.");
-    await loadContent();
-  } catch {
-    alert("Gagal menyimpan kegiatan. Periksa Firestore Rules.");
-  }
-});
+    alert("Gagal menyimpan kegiatan atau mengunggah foto. Periksa Cloud name, preset, dan Firestore Rules."); });
 </script>
 </body>
 </html>
