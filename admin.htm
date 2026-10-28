@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin KAWANEE</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      background: #f1f5f2;
+      color: #20352a;
+    }
+    main {
+      width: 100%;
+      max-width: 400px;
+      padding: 28px;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 4px 20px #00000012;
+    }
+    h1 { margin-top: 0; }
+    p { line-height: 1.5; }
+    label { display: block; margin-top: 16px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 7px;
+      border: 1px solid #bdc9c0;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: 0;
+      border-radius: 7px;
+      background: #246b45;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #status { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Admin KAWANEE</h1>
+    <p>Masuk menggunakan akun pengurus yang telah terdaftar.</p>
+
+    <form id="loginForm">
+      <label for="email">Email admin</label>
+      <input id="email" type="email" autocomplete="username"
+        required>
+
+      <label for="password">Kata sandi</label>
+      <input id="password" type="password"
+        autocomplete="current-password" required>
+
+      <button type="submit">Masuk</button>
+    </form>
+
+    <p id="status" role="status"></p>
+    <button id="logoutButton" hidden>Keluar</button>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {
+      getAuth, signInWithEmailAndPassword, onAuthStateChanged,
+      signOut
+    } from
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
+      authDomain: "kawanee-website.firebaseapp.com",
+      projectId: "kawanee-website",
+      storageBucket: "kawanee-website.firebasestorage.app",
+      messagingSenderId: "285839151481",
+      appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8"
+     };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const form = document.getElementById("loginForm");
+    const status = document.getElementById("status");
+    const logoutButton = document.getElementById("logoutButton");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "Memeriksa akun...";
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("email").value.trim(),
+          document.getElementById("password").value
+        );
+      } catch (error) {
+        status.textContent =
+          "Login gagal. Periksa email, kata sandi, dan konfigurasi Firebase.";
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      form.hidden = false;
+      logoutButton.hidden = true;
+
+      if (!user) {
+        status.textContent = "Silakan login sebagai admin.";
+        return;
+      }
+
+      const adminUid = "tbv7AC93oaMA7WigsVO858XpHeE2";
+
+      if (user.uid !== adminUid) {
+        await signOut(auth);
+        status.textContent = "Akses ditolak. Akun ini bukan admin.";
+        return;
+      }
+
+      form.hidden = true;
+      logoutButton.hidden = false;
+      status.textContent =
+        "Login berhasil. Identitas admin terverifikasi. Fitur pengelolaan konten akan ditambahkan pada langkah berikutnya.";
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+  </script>
+</body>
+</html>
