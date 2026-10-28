@@ -2,140 +2,239 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin KAWANEE</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 20px;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: Arial, sans-serif;
-      background: #f1f5f2;
-      color: #20352a;
-    }
-    main {
-      width: 100%;
-      max-width: 400px;
-      padding: 28px;
-      border-radius: 14px;
-      background: white;
-      box-shadow: 0 4px 20px #00000012;
-    }
-    h1 { margin-top: 0; }
-    p { line-height: 1.5; }
-    label { display: block; margin-top: 16px; }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-top: 7px;
-      border: 1px solid #bdc9c0;
-      border-radius: 7px;
-      font-size: 16px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 20px;
-      border: 0;
-      border-radius: 7px;
-      background: #246b45;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #status { overflow-wrap: anywhere; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin KAWANEE</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f2;color:#20352a;margin:0;padding:16px}
+main{max-width:760px;margin:auto}
+section{background:white;padding:18px;margin:16px 0;border-radius:12px}
+input,textarea,select{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #bbb;border-radius:6px;font:inherit}
+button{padding:11px 15px;border:0;border-radius:6px;background:#246b45;color:white;font-size:15px;cursor:pointer;margin:4px 0}
+.danger{background:#a52b2b}
+.item{border-top:1px solid #ddd;padding:12px 0;overflow-wrap:anywhere}
+small{color:#53645a}
+</style>
 </head>
 <body>
-  <main>
-    <h1>Admin KAWANEE</h1>
-    <p>Masuk menggunakan akun pengurus yang telah terdaftar.</p>
+<main>
+<h1>Admin KAWANEE</h1>
+<p>Kelola informasi dan kegiatan organisasi.</p>
 
-    <form id="loginForm">
-      <label for="email">Email admin</label>
-      <input id="email" type="email" autocomplete="username"
-        required>
+<section id="loginSection">
+<h2>Login Pengurus</h2>
+<form id="loginForm">
+<label>Email admin</label>
+<input id="email" type="email" autocomplete="username" required>
+<label>Kata sandi</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button type="submit">Masuk</button>
+</form>
+<p id="status" role="status">Silakan login.</p>
+</section>
 
-      <label for="password">Kata sandi</label>
-      <input id="password" type="password"
-        autocomplete="current-password" required>
+<div id="panel" hidden>
+<section>
+<p id="welcome"></p>
+<button id="logout">Keluar</button>
+</section>
 
-      <button type="submit">Masuk</button>
-    </form>
+<section>
+<h2>Tambah Informasi</h2>
+<form id="infoForm">
+<label>Judul informasi</label>
+<input id="infoTitle" maxlength="150" required>
+<label>Isi informasi</label>
+<textarea id="infoBody" rows="4" maxlength="10000" required></textarea>
+<button type="submit">Simpan Informasi</button>
+</form>
+</section>
 
-    <p id="status" role="status"></p>
-    <button id="logoutButton" hidden>Keluar</button>
-  </main>
+<section>
+<h2>Tambah Kegiatan</h2>
+<form id="activityForm">
+<label>Nama kegiatan</label>
+<input id="activityTitle" maxlength="150" required>
+<label>Tanggal kegiatan</label>
+<input id="activityDate" type="date" required>
+<label>Deskripsi kegiatan</label>
+<textarea id="activityBody" rows="4" maxlength="10000" required></textarea>
+<label>URL foto langsung (opsional)</label>
+<input id="activityPhoto" type="url" placeholder="https://...">
+<small>Gunakan URL gambar langsung yang dapat diakses publik.</small><br>
+<button type="submit">Simpan Kegiatan</button>
+</form>
+</section>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-    import {
-      getAuth, signInWithEmailAndPassword, onAuthStateChanged,
-      signOut
-    } from
-      "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+<section>
+<h2>Informasi Tersimpan</h2>
+<div id="infoList">Memuat data...</div>
+</section>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
-      authDomain: "kawanee-website.firebaseapp.com",
-      projectId: "kawanee-website",
-      storageBucket: "kawanee-website.firebasestorage.app",
-      messagingSenderId: "285839151481",
-      appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8"
-     };
+<section>
+<h2>Kegiatan Tersimpan</h2>
+<div id="activityList">Memuat data...</div>
+</section>
+</div>
+</main>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const form = document.getElementById("loginForm");
-    const status = document.getElementById("status");
-    const logoutButton = document.getElementById("logoutButton");
+<script type="module">
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      status.textContent = "Memeriksa akun...";
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          document.getElementById("email").value.trim(),
-          document.getElementById("password").value
-        );
-      } catch (error) {
-        status.textContent =
-          "Login gagal. Periksa email, kata sandi, dan konfigurasi Firebase.";
+const firebaseConfig = {
+  apiKey: "AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
+  authDomain: "kawanee-website.firebaseapp.com",
+  projectId: "kawanee-website",
+  storageBucket: "kawanee-website.firebasestorage.app",
+  messagingSenderId: "285839151481",
+  appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8" 
+};
+
+const ADMIN_UID = "tbv7AC93oaMA7WigsVO858XpHeE2";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const loginSection = $("loginSection");
+const panel = $("panel");
+const status = $("status");
+
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  status.textContent = "Memeriksa akun...";
+  try {
+    await signInWithEmailAndPassword(
+      auth, $("email").value.trim(), $("password").value
+    );
+  } catch {
+    status.textContent = "Login gagal. Periksa email, sandi, dan konfigurasi.";
+  }
+});
+
+onAuthStateChanged(auth, async user => {
+  panel.hidden = true;
+  loginSection.hidden = !(!user);
+  if (!user) {
+    status.textContent = "Silakan login sebagai admin.";
+    return;
+  }
+  if (user.uid !== ADMIN_UID) {
+    await signOut(auth);
+    status.textContent = "Akses ditolak: bukan admin.";
+    return;
+  }
+  panel.hidden = false;
+  $("welcome").textContent = "Login sebagai admin: " + user.email;
+  status.textContent = "Admin terverifikasi.";
+  await loadContent();
+});
+
+$("logout").addEventListener("click", () => signOut(auth));
+
+function safeText(tag, value) {
+  const el = document.createElement(tag);
+  el.textContent = value ?? "";
+  return el;
+}
+
+async function loadCollection(name, listId, isActivity) {
+  const list = $(listId);
+  list.replaceChildren();
+  try {
+    const snap = await getDocs(collection(db, name));
+    if (snap.empty) {
+      list.textContent = "Belum ada data.";
+      return;
+    }
+    snap.forEach(snapshot => {
+      const data = snapshot.data();
+      const item = document.createElement("div");
+      item.className = "item";
+      item.append(
+        safeText("h3", data.judul || data.title || "(Tanpa judul)"),
+        safeText("p", data.isi || data.deskripsi || ""),
+        safeText("small", data.tanggal || "")
+      );
+      if (data.foto) {
+        const link = document.createElement("a");
+        link.href = data.foto;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Lihat foto";
+        item.append(document.createElement("br"), link);
       }
+      const del = document.createElement("button");
+      del.className = "danger";
+      del.textContent = "Hapus";
+      del.addEventListener("click", async () => {
+        if (!confirm("Yakin ingin menghapus konten ini?")) return;
+        try {
+          await deleteDoc(doc(db, name, snapshot.id));
+          await loadContent();
+        } catch {
+          alert("Gagal menghapus. Periksa aturan Firestore.");
+        }
+      });
+      item.append(document.createElement("br"), del);
+      list.append(item);
     });
+  } catch {
+    list.textContent = "Gagal memuat data. Periksa koneksi dan Firestore Rules.";
+  }
+}
 
-    onAuthStateChanged(auth, async (user) => {
-      form.hidden = false;
-      logoutButton.hidden = true;
+async function loadContent() {
+  await loadCollection("informasi", "infoList", false);
+  await loadCollection("kegiatan", "activityList", true);
+}
 
-      if (!user) {
-        status.textContent = "Silakan login sebagai admin.";
-        return;
-      }
-
-      const adminUid = "tbv7AC93oaMA7WigsVO858XpHeE2";
-
-      if (user.uid !== adminUid) {
-        await signOut(auth);
-        status.textContent = "Akses ditolak. Akun ini bukan admin.";
-        return;
-      }
-
-      form.hidden = true;
-      logoutButton.hidden = false;
-      status.textContent =
-        "Login berhasil. Identitas admin terverifikasi. Fitur pengelolaan konten akan ditambahkan pada langkah berikutnya.";
+$("infoForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  try {
+    await addDoc(collection(db, "informasi"), {
+      judul: $("infoTitle").value.trim(),
+      isi: $("infoBody").value.trim(),
+      dibuatPada: serverTimestamp()
     });
+    e.target.reset();
+    alert("Informasi berhasil disimpan.");
+    await loadContent();
+  } catch {
+    alert("Gagal menyimpan informasi. Periksa Firestore Rules.");
+  }
+});
 
-    logoutButton.addEventListener("click", async () => {
-      await signOut(auth);
+$("activityForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const photo = $("activityPhoto").value.trim();
+  if (photo && !/^https?:\/\//i.test(photo)) {
+    alert("URL foto harus diawali https:// atau http://");
+    return;
+  }
+  try {
+    await addDoc(collection(db, "kegiatan"), {
+      judul: $("activityTitle").value.trim(),
+      tanggal: $("activityDate").value,
+      deskripsi: $("activityBody").value.trim(),
+      foto: photo,
+      dibuatPada: serverTimestamp()
     });
-  </script>
+    e.target.reset();
+    alert("Kegiatan berhasil disimpan.");
+    await loadContent();
+  } catch {
+    alert("Gagal menyimpan kegiatan. Periksa Firestore Rules.");
+  }
+});
+</script>
 </body>
 </html>
