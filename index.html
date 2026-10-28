@@ -1,413 +1,942 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183d2b">
+  <meta name="description" content="Website resmi KAWANEE, organisasi penggiat alam yang bergerak dalam kegiatan alam terbuka dan pemberdayaan masyarakat.">
+  <title>KAWANEE | Organisasi Penggiat Alam</title>
 
-<title>KAWANEE | Organisasi Penggiat Alam</title>
+  <style>
+    :root {
+      --green: #183d2b;
+      --green-light: #286746;
+      --cream: #f5f7f2;
+      --white: #ffffff;
+      --text: #24342a;
+      --muted: #647269;
+      --border: #e0e7df;
+    }
 
-<style>
-* {
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7f2;
-  color: #263629;
-  line-height: 1.7;
-}
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
 
-/* HEADER DAN LOGO */
-header {
-  background: #173f2b;
-  color: white;
-  text-align: center;
-  padding: 25px 15px 30px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+    }
 
-.logo-organisasi {
-  display: block;
-  width: 125px;
-  height: 125px;
-  object-fit: contain;
-  margin: 0 auto 12px;
-  border-radius: 8px;
-}
+    a {
+      color: inherit;
+    }
 
-.logo {
-  font-size: 38px;
-  font-weight: bold;
-  letter-spacing: 4px;
-  margin: 0;
-}
+    img {
+      max-width: 100%;
+    }
 
-header p {
-  margin: 5px 0;
-}
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 6%;
+      background: var(--green);
+      color: white;
+      box-shadow: 0 2px 12px #00000016;
+    }
 
-/* NAVIGASI */
-nav {
-  background: #24583a;
-  padding: 8px 5px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 21px;
+      letter-spacing: 1px;
+    }
 
-nav a {
-  display: inline-block;
-  color: white;
-  text-decoration: none;
-  padding: 8px 10px;
-  font-size: 14px;
-}
+    .brand img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: white;
+    }
 
-nav a:hover {
-  background: #39754d;
-  border-radius: 5px;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-/* BERANDA */
-.hero {
-  background: linear-gradient(135deg, #24583a, #739b59);
-  color: white;
-  padding: 50px 20px;
-  text-align: center;
-}
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-.hero h1 {
-  font-size: 30px;
-  line-height: 1.3;
-  margin: 0 0 15px;
-}
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
 
-.hero p {
-  max-width: 650px;
-  margin: 0 auto 20px;
-}
+    .hero {
+      min-height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 65px 20px;
+      color: white;
+      background:
+        linear-gradient(135deg, #102c20ed, #183d2bd9),
+        url("https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1800&q=85")
+        center/cover no-repeat;
+    }
 
-.button {
-  display: inline-block;
-  background: white;
-  color: #24583a;
-  padding: 10px 18px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-}
+    .hero-content {
+      width: 100%;
+      max-width: 850px;
+    }
 
-/* KONTEN */
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px 15px;
-}
+    .hero-logo {
+      width: 105px;
+      height: 105px;
+      object-fit: contain;
+      padding: 5px;
+      border-radius: 50%;
+      background: white;
+      margin-bottom: 12px;
+    }
 
-.section-title {
-  color: #24583a;
-  border-bottom: 3px solid #9bbd79;
-  padding-bottom: 8px;
-  margin-top: 20px;
-}
+    .hero h1 {
+      margin: 8px 0;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.2;
+    }
 
-.card {
-  background: white;
-  padding: 18px;
-  border-radius: 12px;
-  margin: 15px 0;
-  box-shadow: 0 3px 10px #0000000d;
-}
+    .hero p {
+      max-width: 650px;
+      margin: 15px auto 25px;
+      color: #eef5ee;
+      font-size: 17px;
+    }
 
-.card h3 {
-  color: #24583a;
-  margin-top: 5px;
-}
+    .button {
+      display: inline-block;
+      padding: 11px 20px;
+      border-radius: 7px;
+      background: #d5e8c9;
+      color: var(--green);
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-.activity-date {
-  color: #537354;
-  font-size: 13px;
-  font-weight: bold;
-}
+    .button:hover {
+      background: white;
+    }
 
-/* GALERI FOTO */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 15px;
-}
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
 
-.gallery-item {
-  background: white;
-  border-radius: 10px;
-  padding: 8px;
-  overflow: hidden;
-}
+    .section {
+      padding: 65px 0;
+    }
 
-.gallery img {
-  display: block;
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 7px;
-  background: #dce5d7;
-}
+    .section-title {
+      text-align: center;
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 35px);
+      color: var(--green);
+      line-height: 1.3;
+    }
 
-.photo-caption {
-  font-size: 13px;
-  margin: 8px 3px;
-}
+    .section-subtitle {
+      max-width: 700px;
+      margin: 0 auto 32px;
+      color: var(--muted);
+      text-align: center;
+    }
 
-/* KONTAK */
-.contact-item {
-  margin: 8px 0;
-  overflow-wrap: anywhere;
-}
+    .about {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 32px;
+    }
 
-/* FOOTER */
-footer {
-  background: #173f2b;
-  color: white;
-  text-align: center;
-  padding: 22px 12px;
-  margin-top: 25px;
-  font-size: 14px;
-}
+    .card {
+      min-width: 0;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--white);
+      box-shadow: 0 5px 18px #183d2b08;
+    }
 
-footer p {
-  margin: 5px;
-}
+    .card h3 {
+      color: var(--green);
+      margin: 0 0 10px;
+      line-height: 1.4;
+    }
 
-/* TAMPILAN LAYAR BESAR */
-@media (min-width: 650px) {
-  .gallery {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+    .card p {
+      overflow-wrap: anywhere;
+    }
 
-  .hero h1 {
-    font-size: 38px;
-  }
+    .vision-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
 
-  .logo-organisasi {
-    width: 145px;
-    height: 145px;
-  }
-}
-</style>
+    .vision-list li {
+      margin-bottom: 9px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 5px 18px #183d2b09;
+    }
+
+    .content-image {
+      display: block;
+      width: 100%;
+      height: 215px;
+      object-fit: cover;
+      background: #e5ebe4;
+    }
+
+    .content-image[hidden] {
+      display: none;
+    }
+
+    .content-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 19px;
+    }
+
+    .content-body h3 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 19px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .content-body p {
+      margin: 8px 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .content-date {
+      margin-bottom: 7px;
+      color: var(--green-light);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .content-meta {
+      margin-top: auto;
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty-state,
+    .loading-state,
+    .error-state {
+      grid-column: 1 / -1;
+      padding: 28px 18px;
+      text-align: center;
+      border: 1px dashed #cbd8ca;
+      border-radius: 12px;
+      background: white;
+      color: var(--muted);
+    }
+
+    .error-state {
+      color: #a52b2b;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .gallery-item {
+      display: block;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #e5ebe4;
+      text-decoration: none;
+    }
+
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+    }
+
+    .gallery-caption {
+      padding: 10px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-section {
+      background: #e9f0e7;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .contact-card {
+      padding: 22px;
+      border-radius: 12px;
+      background: white;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-card h3 {
+      margin-top: 0;
+      color: var(--green);
+    }
+
+    .contact-card a {
+      color: var(--green-light);
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      padding: 25px 6%;
+      text-align: center;
+      background: var(--green);
+      color: white;
+      font-size: 13px;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    @media (max-width: 800px) {
+      .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .content-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 10px 5%;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .brand img {
+        width: 38px;
+        height: 38px;
+      }
+
+      .nav-links {
+        width: 100%;
+        gap: 12px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .hero {
+        min-height: 390px;
+        padding: 45px 18px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .section {
+        padding: 45px 0;
+      }
+
+      .container {
+        width: 92%;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .content-image {
+        height: 220px;
+      }
+
+      .gallery-grid {
+        gap: 9px;
+      }
+
+      .gallery-item img {
+        height: 145px;
+      }
+
+      .card {
+        padding: 19px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header class="navbar">
+    <a class="brand" href="#beranda" aria-label="KAWANEE beranda">
+      <img
+        src="https://raw.githubusercontent.com/Idooivan/kawanee-website/a13ee35b7620728235faac49944e2b0082fa789b/Desain%20tanpa%20judul_20260809_102703_0000.png"
+        alt="Logo KAWANEE"
+        onerror="this.style.display='none'"
+      >
+      <span>KAWANEE</span>
+    </a>
 
-<!-- HEADER -->
-<header id="beranda">
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="#beranda">Beranda</a>
+      <a href="#profil">Profil</a>
+      <a href="#informasi">Informasi</a>
+      <a href="#kegiatan">Kegiatan</a>
+      <a href="#galeri">Galeri Foto</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+  </header>
 
-  <img
-    src="https://raw.githubusercontent.com/Idooivan/kawanee-website/a13ee35b7620728235faac49944e2b0082fa789b/Desain%20tanpa%20judul_20260809_102703_0000.png"
-    alt="Logo Organisasi KAWANEE"
-    class="logo-organisasi">
-
-  <div class="logo">KAWANEE</div>
-  <p>Organisasi Penggiat Alam</p>
-  <p>PRAY, WORK, ADVENTURE</p>
-
-</header>
-
-<!-- MENU NAVIGASI -->
-<nav>
-  <a href="#beranda">Beranda</a>
-  <a href="#profil">Profil</a>
-  <a href="#kegiatan">Kegiatan</a>
-  <a href="#galeri">Galeri Foto</a>
-  <a href="#kontak">Kontak</a>
-</nav>
-
-<!-- HALAMAN BERANDA -->
-<section class="hero">
-  <h1>Selamat Datang di KAWANEE</h1>
-
-  <p>
-    Rumah persaudaraan bagi para penggiat alam,
-    pecinta lingkungan, dan Aktivis penanggulangan bencana alam.
-  </p>
-
-  <a href="#kegiatan" class="button">
-    Lihat Informasi Kegiatan
-  </a>
-</section>
-
-<main class="container">
-
-  <!-- PROFIL ORGANISASI -->
-  <section id="profil">
-    <h2 class="section-title">Profil Organisasi</h2>
-
-    <div class="card">
-      <h3>Tentang KAWANEE</h3>
-
-      <p>
-        KAWANEE adalah organisasi penggiat alam yang menjadi
-        wadah persaudaraan, pengembangan kemampuan, kegiatan
-        alam terbuka, serta kepedulian terhadap lingkungan.
-      </p>
-
-      <p>
-        Website ini merupakan pusat informasi organisasi,
-        publikasi kegiatan, dan dokumentasi perjalanan
-        KAWANEE.
-      </p>
-
-      <h3>Visi</h3>
-      <p>
-        Menjadi wadah penggiat alam yang solid, berwawasan lingkungan yang luas, serta
-berdedikasi tinggi terhadap pelestarian alam dan kemanusiaan.
-      </p>
-
-      <h3>Misi</h3>
-      <ul>
-        <li>Menyelenggarakan kegiatan kealaman yang aman (safety first) dan bertanggung 
-jawab.</li>
-        <li>Melakukan aksi nyata konservasi lingkungan hidup dan gerakan edukasi masyarakat.</li>
-        <li>Mengembangkan potensi diri, keahlian, dan jiwa kepemimpinan para anggota</li>
-        <li>Berperan aktif dalam kegiatan kemanusiaan dan penanggulangan bencana alam.</li>
-      </ul>
-
-      <p>
-       
-      </p>
-    </div>
-  </section>
-
-  <!-- INFORMASI KEGIATAN -->
-  <section id="kegiatan">
-    <h2 class="section-title">Informasi Kegiatan</h2>
-
-    <div class="card">
-      <span class="activity-date">INFORMASI ORGANISASI</span>
-
-      <h3>Selamat Datang di Informasi Kegiatan KAWANEE</h3>
-
-      <p>
-        Bagian ini digunakan untuk menyampaikan pengumuman,
-        agenda, jadwal kegiatan, dan laporan aktivitas organisasi.
-      </p>
-
-      <p>
-        Informasi kegiatan terbaru akan ditampilkan di bagian ini.
-      </p>
-    </div>
-
-    <!--
-    CARA MENAMBAHKAN BERITA KEGIATAN:
-
-    Salin blok di bawah ini, kemudian letakkan sebelum
-    penutup section kegiatan.
-
-    <div class="card">
-      <span class="activity-date">12 DESEMBER 2026</span>
-      <h3>Judul Kegiatan</h3>
-      <p><b>Lokasi:</b> Nama lokasi kegiatan</p>
-      <p>
-        Tuliskan informasi dan deskripsi kegiatan di sini.
-      </p>
-    </div>
-
-    Ganti tanggal, judul, lokasi, dan deskripsi sesuai kegiatan.
-    -->
-
-  </section>
-
-  <!-- GALERI FOTO -->
-  <section id="galeri">
-    <h2 class="section-title">Galeri Foto Kegiatan</h2>
-
-    <p>
-      Dokumentasi perjalanan, kegiatan alam terbuka,
-      dan aktivitas lingkungan KAWANEE.
-    </p>
-
-    <div class="gallery">
-
-      <div class="gallery-item">
+  <main>
+    <section class="hero" id="beranda">
+      <div class="hero-content">
         <img
-          src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=600&q=80"
-          alt="Ilustrasi kegiatan pendakian">
-        <p class="photo-caption">Kegiatan alam terbuka</p>
+          class="hero-logo"
+          src="https://raw.githubusercontent.com/Idooivan/kawanee-website/a13ee35b7620728235faac49944e2b0082fa789b/Desain%20tanpa%20judul_20260809_102703_0000.png"
+          alt="Logo KAWANEE"
+          onerror="this.style.display='none'"
+        >
+        <h1>Selamat Datang di KAWANEE</h1>
+        <p>
+          Wadah penggiat alam untuk belajar, berkegiatan,
+          menjaga lingkungan, dan berkontribusi bagi masyarakat.
+        </p>
+        <a class="button" href="#profil">Kenali KAWANEE</a>
       </div>
+    </section>
 
-      <div class="gallery-item">
-        <img
-          src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=600&q=80"
-          alt="Ilustrasi keindahan alam">
-        <p class="photo-caption">Pendakian</p>
+    <section class="section" id="profil">
+      <div class="container">
+        <h2 class="section-title">Profil Organisasi</h2>
+        <p class="section-subtitle">
+          Mengenal KAWANEE dan semangat kami dalam kegiatan alam terbuka.
+        </p>
+
+        <div class="about">
+          <article class="card">
+            <h3>Tentang KAWANEE</h3>
+            <p>
+              KAWANEE merupakan organisasi penggiat alam yang menjadi
+              wadah untuk membangun kepedulian terhadap alam dan lingkungan,
+              meningkatkan keterampilan kegiatan alam terbuka, serta
+              menumbuhkan semangat kebersamaan dan pengabdian kepada masyarakat.
+            </p>
+            <p>
+              Melalui kegiatan organisasi, anggota diharapkan dapat
+              mengembangkan pengetahuan, keterampilan, kedisiplinan,
+              kepemimpinan, dan tanggung jawab terhadap lingkungan.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Visi dan Misi</h3>
+            <p><strong>Visi</strong></p>
+            <p>
+              Mewujudkan penggiat alam yang tangguh, berkarakter,
+              peduli lingkungan, dan bermanfaat bagi masyarakat.
+            </p>
+            <p><strong>Misi</strong></p>
+            <ul class="vision-list">
+              <li>Meningkatkan keterampilan dan pengetahuan kegiatan alam terbuka.</li>
+              <li>Menumbuhkan kepedulian terhadap kelestarian lingkungan.</li>
+              <li>Membangun solidaritas dan profesionalisme organisasi.</li>
+              <li>Mendukung kegiatan sosial dan pemberdayaan masyarakat.</li>
+            </ul>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="gallery-item">
-        <img
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"
-          alt="Ilustrasi pemandangan pegunungan">
-        <p class="photo-caption">Penanggulangan Bencana Alam</p>
+    <section class="section" id="informasi">
+      <div class="container">
+        <h2 class="section-title">Informasi Terbaru</h2>
+        <p class="section-subtitle">
+          Pengumuman dan informasi resmi yang diterbitkan oleh pengurus KAWANEE.
+        </p>
+
+        <div id="informasiList" class="content-grid" aria-live="polite">
+          <div class="loading-state">Memuat informasi terbaru...</div>
+        </div>
       </div>
+    </section>
 
-    </div>
+    <section class="section" id="kegiatan">
+      <div class="container">
+        <h2 class="section-title">Kegiatan KAWANEE</h2>
+        <p class="section-subtitle">
+          Dokumentasi kegiatan dan agenda organisasi yang dibagikan oleh pengurus.
+        </p>
 
-   
-    </p>
+        <div id="kegiatanList" class="content-grid" aria-live="polite">
+          <div class="loading-state">Memuat kegiatan...</div>
+        </div>
+      </div>
+    </section>
 
-    <!--
-    CARA MENAMBAHKAN FOTO:
+    <section class="section" id="galeri">
+      <div class="container">
+        <h2 class="section-title">Galeri Foto</h2>
+        <p class="section-subtitle">
+          Foto kegiatan yang diunggah melalui halaman admin KAWANEE.
+        </p>
 
-    Salin blok berikut dan letakkan di dalam div class="gallery".
+        <div id="galeriList" class="gallery-grid" aria-live="polite">
+          <div class="loading-state">Memuat galeri foto...</div>
+        </div>
+      </div>
+    </section>
 
-    <div class="gallery-item">
-      <img src="ALAMAT-FOTO" alt="Deskripsi foto">
-      <p class="photo-caption">Nama kegiatan dan tanggal</p>
-    </div>
+    <section class="section contact-section" id="kontak">
+      <div class="container">
+        <h2 class="section-title">Hubungi Kami</h2>
+        <p class="section-subtitle">
+          Terhubung dengan KAWANEE untuk informasi dan kerja sama.
+        </p>
 
-    ALAMAT-FOTO harus berupa alamat gambar yang dapat diakses
-    publik. Foto dari galeri HP perlu diunggah ke tempat hosting
-    gambar atau website terlebih dahulu.
-    -->
+        <div class="contact-grid">
+          <article class="contact-card">
+            <h3>Alamat Sekretariat</h3>
+            <p><strong>KAWANEE</strong></p>
+            <p>
+              Perumahan Pesona Cikahuripan 6 B4 No. 16,
+              Desa Cikahuripan, Kecamatan Klapanunggal,
+              Kabupaten Bogor.
+            </p>
+          </article>
 
-  </section>
+          <article class="contact-card">
+            <h3>Email</h3>
+            <p>
+              <a href="mailto:Kawaneeid@gmail.com">
+                Kawaneeid@gmail.com
+              </a>
+            </p>
+          </article>
 
-  <!-- KONTAK ORGANISASI -->
-  <section id="kontak">
-    <h2 class="section-title">Kontak Organisasi</h2>
+          <article class="contact-card">
+            <h3>Media Sosial dan Telepon</h3>
+            <p>
+              Instagram:
+              <a
+                href="https://www.instagram.com/Kawanee_id/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >@Kawanee_id</a>
+            </p>
+            <p>
+              WhatsApp:
+              <a
+                href="https://wa.me/6285776121705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >085776121705</a>
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <div class="card">
-      <p class="contact-item">
-        <b>Nama organisasi:</b> KAWANEE
-      </p>
+  <footer>
+    <p><strong>KAWANEE — Organisasi Penggiat Alam</strong></p>
+    <p>&copy; <span id="tahun"></span> KAWANEE. Seluruh hak cipta dilindungi.</p>
+  </footer>
 
-      <p class="contact-item">
-        
-      <p>
-        Untuk informasi lebih lanjut, silakan hubungi
-        pengurus melalui kontak resmi organisasi.
-      </p>
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
-     
-      <p>Sekretariat: Perumahan Pesona Cikahuripan 6 B4 No. 16
-Desa Cikahuripan Kecamatan Klapanunggal Kabupaten Bogor</p>
-      <p>Email: Kawaneeid@gmail.com</p>
-      <p>Instagram: @Kawanee_id</p>
-      <p>Telpon: 085776121705</p>
-      -->
-    </div>
-  </section>
+    import {
+      getFirestore,
+      collection,
+      onSnapshot
+    } from
+      "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-</main>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
+      authDomain: "kawanee-website.firebaseapp.com",
+      projectId: "kawanee-website",
+      storageBucket: "kawanee-website.firebasestorage.app",
+      messagingSenderId: "285839151481",
+      appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8"
+    };
 
-<!-- BAGIAN BAWAH WEBSITE -->
-<footer>
-  <p><b>KAWANEE</b></p>
-  <p>Organisasi Penggiat Alam</p>
-  <p>&copy; 2026 KAWANEE. Hak cipta dilindungi.</p>
-</footer>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
+    document.getElementById("tahun").textContent =
+      new Date().getFullYear();
+
+    function buatElemen(tag, className, text) {
+      const el = document.createElement(tag);
+
+      if (className) {
+        el.className = className;
+      }
+
+      if (text !== undefined && text !== null) {
+        el.textContent = String(text);
+      }
+
+      return el;
+    }
+
+    function formatTanggal(tanggal) {
+      if (!tanggal) return "";
+
+      // Tanggal kegiatan disimpan dalam format YYYY-MM-DD.
+      // Tambahkan waktu siang agar tanggal tidak bergeser ke hari sebelumnya.
+      const date = new Date(String(tanggal) + "T12:00:00");
+
+      if (Number.isNaN(date.getTime())) {
+        return String(tanggal);
+      }
+
+      return new Intl.DateTimeFormat("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(date);
+    }
+
+    function waktuDibuat(data) {
+      const value = data.dibuatPada;
+
+      if (value && typeof value.toMillis === "function") {
+        return value.toMillis();
+      }
+
+      if (value instanceof Date) {
+        return value.getTime();
+      }
+
+      return 0;
+    }
+
+    function tampilkanStatus(container, pesan, jenis = "empty-state") {
+      container.replaceChildren();
+      container.appendChild(buatElemen("div", jenis, pesan));
+    }
+
+    function buatKartuInformasi(data) {
+      const card = buatElemen("article", "content-card");
+      const body = buatElemen("div", "content-body");
+
+      body.appendChild(
+        buatElemen("h3", "", data.judul || "Tanpa judul")
+      );
+
+      body.appendChild(
+        buatElemen("p", "", data.isi || "Belum ada isi informasi.")
+      );
+
+      const meta = buatElemen(
+        "div",
+        "content-meta",
+        "Informasi KAWANEE"
+      );
+
+      body.appendChild(meta);
+      card.appendChild(body);
+
+      return card;
+    }
+
+    function buatKartuKegiatan(data) {
+      const card = buatElemen("article", "content-card");
+      const foto = data.foto || "";
+
+      if (foto) {
+        const img = buatElemen("img", "content-image");
+        img.src = foto;
+        img.alt = data.judul
+          ? "Foto kegiatan: " + data.judul
+          : "Foto kegiatan KAWANEE";
+        img.loading = "lazy";
+        img.referrerPolicy = "no-referrer";
+
+        img.addEventListener("error", () => {
+          img.remove();
+        }, { once: true });
+
+        card.appendChild(img);
+      }
+
+      const body = buatElemen("div", "content-body");
+
+      body.appendChild(
+        buatElemen("h3", "", data.judul || "Kegiatan KAWANEE")
+      );
+
+      if (data.tanggal) {
+        body.appendChild(
+          buatElemen("div", "content-date", formatTanggal(data.tanggal))
+        );
+      }
+
+      body.appendChild(
+        buatElemen("p", "", data.deskripsi || "Belum ada deskripsi kegiatan.")
+      );
+
+      body.appendChild(
+        buatElemen("div", "content-meta", "Kegiatan KAWANEE")
+      );
+
+      card.appendChild(body);
+
+      return card;
+    }
+
+    function buatItemGaleri(data) {
+      const link = buatElemen("a", "gallery-item");
+      link.href = data.foto;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", "Buka foto " + (data.judul || "kegiatan KAWANEE"));
+
+      const img = document.createElement("img");
+      img.src = data.foto;
+      img.alt = data.judul || "Foto kegiatan KAWANEE";
+      img.loading = "lazy";
+
+      img.addEventListener("error", () => {
+        link.remove();
+      }, { once: true });
+
+      const caption = buatElemen(
+        "div",
+        "gallery-caption",
+        data.judul || "Kegiatan KAWANEE"
+      );
+
+      link.append(img, caption);
+      return link;
+    }
+
+    function urutkanData(data) {
+      return data.sort((a, b) => {
+        // Kegiatan diurutkan berdasarkan tanggal kegiatan terbaru.
+        const dateA = a.tanggal
+          ? new Date(a.tanggal + "T12:00:00").getTime()
+          : 0;
+
+        const dateB = b.tanggal
+          ? new Date(b.tanggal + "T12:00:00").getTime()
+          : 0;
+
+        if (dateA && dateB && dateA !== dateB) {
+          return dateB - dateA;
+        }
+
+        return waktuDibuat(b) - waktuDibuat(a);
+      });
+    }
+
+    function pasangListenerInformasi() {
+      const container = document.getElementById("informasiList");
+
+      onSnapshot(
+        collection(db, "informasi"),
+        snapshot => {
+          const data = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          data.sort((a, b) => waktuDibuat(b) - waktuDibuat(a));
+
+          container.replaceChildren();
+
+          if (data.length === 0) {
+            tampilkanStatus(
+              container,
+              "Belum ada informasi. Informasi baru akan tampil di sini setelah ditambahkan oleh pengurus."
+            );
+            return;
+          }
+
+          data.forEach(item => {
+            container.appendChild(buatKartuInformasi(item));
+          });
+        },
+        error => {
+          console.error("Gagal memuat informasi:", error);
+          tampilkanStatus(
+            container,
+            "Informasi belum dapat dimuat. Periksa koneksi dan izin baca Firestore.",
+            "error-state"
+          );
+        }
+      );
+    }
+
+    function pasangListenerKegiatan() {
+      const container = document.getElementById("kegiatanList");
+      const galeri = document.getElementById("galeriList");
+
+      onSnapshot(
+        collection(db, "kegiatan"),
+        snapshot => {
+          const data = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          urutkanData(data);
+
+          container.replaceChildren();
+          galeri.replaceChildren();
+
+          if (data.length === 0) {
+            tampilkanStatus(
+              container,
+              "Belum ada kegiatan. Kegiatan baru akan tampil otomatis setelah ditambahkan oleh pengurus."
+            );
+
+            tampilkanStatus(
+              galeri,
+              "Belum ada foto. Foto yang diunggah melalui admin akan muncul di galeri ini."
+            );
+
+            return;
+          }
+
+          data.forEach(item => {
+            container.appendChild(buatKartuKegiatan(item));
+          });
+
+          const fotoKegiatan = data.filter(
+            item => typeof item.foto === "string" &&
+              item.foto.trim() !== ""
+          );
+
+          if (fotoKegiatan.length === 0) {
+            tampilkanStatus(
+              galeri,
+              "Belum ada foto kegiatan. Unggah foto melalui halaman admin untuk menampilkannya di sini."
+            );
+          } else {
+            fotoKegiatan.forEach(item => {
+              galeri.appendChild(buatItemGaleri(item));
+            });
+          }
+        },
+        error => {
+          console.error("Gagal memuat kegiatan:", error);
+
+          tampilkanStatus(
+            container,
+            "Kegiatan belum dapat dimuat. Periksa koneksi dan izin baca Firestore.",
+            "error-state"
+          );
+
+          tampilkanStatus(
+            galeri,
+            "Galeri belum dapat dimuat. Periksa koneksi dan izin baca Firestore.",
+            "error-state"
+          );
+        }
+      );
+    }
+
+    try {
+      pasangListenerInformasi();
+      pasangListenerKegiatan();
+    } catch (error) {
+      console.error("Gagal menyiapkan halaman KAWANEE:", error);
+    }
+  </script>
 </body>
 </html>
