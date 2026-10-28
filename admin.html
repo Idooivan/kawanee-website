@@ -11,6 +11,7 @@ main{max-width:760px;margin:auto}
 section{background:white;padding:18px;margin:16px 0;border-radius:12px}
 input,textarea,select{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #bbb;border-radius:6px;font:inherit}
 button{padding:11px 15px;border:0;border-radius:6px;background:#246b45;color:white;font-size:15px;cursor:pointer;margin:4px 0}
+button:disabled{opacity:.6;cursor:wait}
 .danger{background:#a52b2b}
 .item{border-top:1px solid #ddd;padding:12px 0;overflow-wrap:anywhere}
 small{color:#53645a}
@@ -28,15 +29,15 @@ small{color:#53645a}
 <input id="email" type="email" autocomplete="username" required>
 <label>Kata sandi</label>
 <input id="password" type="password" autocomplete="current-password" required>
-<button type="submit">Masuk</button>
+<button id="loginButton" type="submit">Masuk</button>
 </form>
-<p id="status" role="status">Silakan login.</p>
+<p id="status" role="status">Menyiapkan sistem...</p>
 </section>
 
 <div id="panel" hidden>
 <section>
 <p id="welcome"></p>
-<button id="logout">Keluar</button>
+<button id="logout" type="button">Keluar</button>
 </section>
 
 <section>
@@ -59,17 +60,10 @@ small{color:#53645a}
 <input id="activityDate" type="date" required>
 <label>Deskripsi kegiatan</label>
 <textarea id="activityBody" rows="4" maxlength="10000" required></textarea>
-
 <label>Foto kegiatan</label>
-<input
-  id="activityPhoto"
-  type="file"
-  accept="image/jpeg,image/png,image/webp"
->
-<img id="photoPreview" alt="Pratinjau foto"
-  hidden style="max-width:100%;max-height:240px;border-radius:8px">
+<input id="activityPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+<img id="photoPreview" alt="Pratinjau foto" hidden style="max-width:100%;max-height:240px;border-radius:8px">
 <small>Pilih foto JPG, PNG, atau WebP dari galeri HP. Maksimal 5 MB.</small>
-  
 <button type="submit">Simpan Kegiatan</button>
 </form>
 </section>
@@ -89,12 +83,24 @@ small{color:#53645a}
 <script type="module">
 import { initializeApp } from
 "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
 import {
-getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
 import {
-getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
-serverTimestamp
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -103,195 +109,284 @@ const firebaseConfig = {
   projectId: "kawanee-website",
   storageBucket: "kawanee-website.firebasestorage.app",
   messagingSenderId: "285839151481",
-  appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8" 
+  appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8"
 };
 
 const ADMIN_UID = "tbv7AC93oaMA7WigsVO858XpHeE2";
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
-const $ = id => document.getElementById(id);
-const loginSection = $("loginSection");
-const panel = $("panel");
-const status = $("status");
-
-$("loginForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  status.textContent = "Memeriksa akun...";
-  try {
-    await signInWithEmailAndPassword(
-      auth, $("email").value.trim(), $("password").value
-    );
-  } catch {
-    status.textContent = "Login gagal. Periksa email, sandi, dan konfigurasi.";
-  }
-});
-
-onAuthStateChanged(auth, async user => {
-  panel.hidden = true;
-  loginSection.hidden = !(!user);
-  if (!user) {
-    status.textContent = "Silakan login sebagai admin.";
-    return;
-  }
-  if (user.uid !== ADMIN_UID) {
-    await signOut(auth);
-    status.textContent = "Akses ditolak: bukan admin.";
-    return;
-  }
-  panel.hidden = false;
-  $("welcome").textContent = "Login sebagai admin: " + user.email;
-  status.textContent = "Admin terverifikasi.";
-  await loadContent();
-});
-
-$("logout").addEventListener("click", () => signOut(auth));
-
-function safeText(tag, value) {
-  const el = document.createElement(tag);
-  el.textContent = value ?? "";
-  return el;
-}
-
-async function loadCollection(name, listId, isActivity) {
-  const list = $(listId);
-  list.replaceChildren();
-  try {
-    const snap = await getDocs(collection(db, name));
-    if (snap.empty) {
-      list.textContent = "Belum ada data.";
-      return;
-    }
-    snap.forEach(snapshot => {
-      const data = snapshot.data();
-      const item = document.createElement("div");
-      item.className = "item";
-      item.append(
-        safeText("h3", data.judul || data.title || "(Tanpa judul)"),
-        safeText("p", data.isi || data.deskripsi || ""),
-        safeText("small", data.tanggal || "")
-      );
-      if (data.foto) {
-        const link = document.createElement("a");
-        link.href = data.foto;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "Lihat foto";
-        item.append(document.createElement("br"), link);
-      }
-      const del = document.createElement("button");
-      del.className = "danger";
-      del.textContent = "Hapus";
-      del.addEventListener("click", async () => {
-        if (!confirm("Yakin ingin menghapus konten ini?")) return;
-        try {
-          await deleteDoc(doc(db, name, snapshot.id));
-          await loadContent();
-        } catch {
-          alert("Gagal menghapus. Periksa aturan Firestore.");
-        }
-      });
-      item.append(document.createElement("br"), del);
-      list.append(item);
-    });
-  } catch {
-    list.textContent = "Gagal memuat data. Periksa koneksi dan Firestore Rules.";
-  }
-}
-
-async function loadContent() {
-  await loadCollection("informasi", "infoList", false);
-  await loadCollection("kegiatan", "activityList", true);
-}
-
-$("infoForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  try {
-    await addDoc(collection(db, "informasi"), {
-      judul: $("infoTitle").value.trim(),
-      isi: $("infoBody").value.trim(),
-      dibuatPada: serverTimestamp()
-    });
-    e.target.reset();
-    alert("Informasi berhasil disimpan.");
-    await loadContent();
-  } catch {
-    alert("Gagal menyimpan informasi. Periksa Firestore Rules.");
-  }
-});
-
-
+// Pastikan CLOUD_NAME adalah Cloud name sebenarnya dari dashboard Cloudinary.
 const CLOUD_NAME = "Kawanee_galeri";
 const UPLOAD_PRESET = "kawanee_galeri";
 
-const photoInput = document.getElementById("activityPhoto");
-const photoPreview = document.getElementById("photoPreview");
+const $ = id => document.getElementById(id);
+const loginSection = $("loginSection");
+const loginForm = $("loginForm");
+const loginButton = $("loginButton");
+const panel = $("panel");
+const status = $("status");
+const photoInput = $("activityPhoto");
+const photoPreview = $("photoPreview");
 
-photoInput.addEventListener("change", () => {
-  const file = photoInput.files[0];
+let auth;
+let db;
+let authReady = false;
+let handlingAuth = false;
 
-  if (!file) {
-    photoPreview.hidden = true;
-    photoPreview.removeAttribute("src");
-    return;
-  }
+function showError(error, prefix) {
+  console.error(prefix, error);
+  const code = error?.code || "unknown";
+  status.textContent = prefix + " (" + code + ").";
+}
 
-  const allowed = ["image/jpeg", "image/png", "image/webp"];
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
 
-  if (!allowed.includes(file.type) || file.size > 5 * 1024 * 1024) {
-    alert("Pilih foto JPG, PNG, atau WebP dengan ukuran maksimal 5 MB.");
-    photoInput.value = "";
-    photoPreview.hidden = true;
-    return;
-  }
+  await setPersistence(auth, browserLocalPersistence);
 
-  photoPreview.src = URL.createObjectURL(file);
-  photoPreview.hidden = false;
-});
+  status.textContent = "Silakan login sebagai admin.";
 
-$("activityForm").addEventListener("submit", async e => {
-  e.preventDefault();
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (loginButton.disabled) return;
 
-  const file = photoInput.files[0];
-  let photoUrl = "";
+    loginButton.disabled = true;
+    status.textContent = "Memeriksa akun...";
 
-  try {
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", UPLOAD_PRESET);
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        { method: "POST", body: formData }
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        $("email").value.trim(),
+        $("password").value
       );
+      status.textContent = "Login berhasil. Memeriksa akses admin...";
+    } catch (error) {
+      showError(error, "Login gagal");
+    } finally {
+      loginButton.disabled = false;
+    }
+  });
 
-      const result = await response.json();
+  onAuthStateChanged(auth, async user => {
+    if (handlingAuth) return;
+    handlingAuth = true;
 
-      if (!response.ok || !result.secure_url) {
-        throw new Error("Unggahan foto gagal.");
+    try {
+      if (!user) {
+        panel.hidden = true;
+        loginSection.hidden = false;
+        if (authReady) status.textContent = "Silakan login sebagai admin.";
+        authReady = true;
+        return;
       }
 
-      photoUrl = result.secure_url;
+      if (user.uid !== ADMIN_UID) {
+        panel.hidden = true;
+        loginSection.hidden = false;
+        status.textContent =
+          "Akses ditolak: UID akun ini tidak cocok dengan UID admin yang diatur.";
+        await signOut(auth);
+        return;
+      }
+
+      loginSection.hidden = false;
+      panel.hidden = false;
+      loginSection.hidden = true;
+
+      $("welcome").textContent = "Login sebagai admin: " + (user.email || "");
+      status.textContent = "Admin terverifikasi.";
+
+      authReady = true;
+      await loadContent();
+    } catch (error) {
+      showError(error, "Gagal memeriksa sesi atau memuat data");
+    } finally {
+      handlingAuth = false;
+    }
+  });
+
+  $("logout").addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      loginForm.reset();
+      status.textContent = "Anda telah keluar.";
+    } catch (error) {
+      showError(error, "Gagal keluar");
+    }
+  });
+
+  function safeText(tag, value) {
+    const el = document.createElement(tag);
+    el.textContent = value ?? "";
+    return el;
+  }
+
+  async function loadCollection(name, listId) {
+    const list = $(listId);
+    list.replaceChildren();
+
+    try {
+      const snap = await getDocs(collection(db, name));
+
+      if (snap.empty) {
+        list.textContent = "Belum ada data.";
+        return;
+      }
+
+      snap.forEach(snapshot => {
+        const data = snapshot.data();
+        const item = document.createElement("div");
+        item.className = "item";
+
+        item.append(
+          safeText("h3", data.judul || data.title || "(Tanpa judul)"),
+          safeText("p", data.isi || data.deskripsi || ""),
+          safeText("small", data.tanggal || "")
+        );
+
+        if (data.foto) {
+          const link = document.createElement("a");
+          link.href = data.foto;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Lihat foto";
+          item.append(document.createElement("br"), link);
+        }
+
+        const del = document.createElement("button");
+        del.className = "danger";
+        del.textContent = "Hapus";
+
+        del.addEventListener("click", async () => {
+          if (!confirm("Yakin ingin menghapus konten ini?")) return;
+
+          try {
+            await deleteDoc(doc(db, name, snapshot.id));
+            await loadContent();
+          } catch (error) {
+            console.error(error);
+            alert("Gagal menghapus. Periksa Firestore Rules.");
+          }
+        });
+
+        item.append(document.createElement("br"), del);
+        list.append(item);
+      });
+    } catch (error) {
+      console.error("Gagal memuat koleksi:", name, error);
+      list.textContent =
+        "Gagal memuat data. Periksa koneksi dan Firestore Rules.";
+    }
+  }
+
+  async function loadContent() {
+    await loadCollection("informasi", "infoList");
+    await loadCollection("kegiatan", "activityList");
+  }
+
+  $("infoForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    try {
+      await addDoc(collection(db, "informasi"), {
+        judul: $("infoTitle").value.trim(),
+        isi: $("infoBody").value.trim(),
+        dibuatPada: serverTimestamp()
+      });
+
+      event.target.reset();
+      alert("Informasi berhasil disimpan.");
+      await loadContent();
+    } catch (error) {
+      console.error(error);
+      alert("Gagal menyimpan informasi. Periksa Firestore Rules.");
+    }
+  });
+
+  photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
+
+    if (!file) {
+      photoPreview.hidden = true;
+      photoPreview.removeAttribute("src");
+      return;
     }
 
-    await addDoc(collection(db, "kegiatan"), {
-      judul: $("activityTitle").value.trim(),
-      tanggal: $("activityDate").value,
-      deskripsi: $("activityBody").value.trim(),
-      foto: photoUrl,
-      dibuatPada: serverTimestamp()
-    });
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
 
-    e.target.reset();
-    photoPreview.hidden = true;
-    photoPreview.removeAttribute("src");
-    alert("Kegiatan berhasil disimpan.");
-    await loadContent();
-  } catch (error) {
-    console.error(error);
-    alert("Gagal menyimpan kegiatan atau mengunggah foto. Periksa Cloud name, preset, dan Firestore Rules."); });
+    if (!allowed.includes(file.type) || file.size > 5 * 1024 * 1024) {
+      alert("Pilih foto JPG, PNG, atau WebP dengan ukuran maksimal 5 MB.");
+      photoInput.value = "";
+      photoPreview.hidden = true;
+      photoPreview.removeAttribute("src");
+      return;
+    }
+
+    photoPreview.src = URL.createObjectURL(file);
+    photoPreview.hidden = false;
+  });
+
+  $("activityForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const file = photoInput.files[0];
+    let photoUrl = "";
+
+    try {
+      if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error("Ukuran foto melebihi 5 MB.");
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+          { method: "POST", body: formData }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.secure_url) {
+          console.error("Cloudinary:", result);
+          throw new Error(
+            result.error?.message || "Unggahan foto gagal."
+          );
+        }
+
+        photoUrl = result.secure_url;
+      }
+
+      await addDoc(collection(db, "kegiatan"), {
+        judul: $("activityTitle").value.trim(),
+        tanggal: $("activityDate").value,
+        deskripsi: $("activityBody").value.trim(),
+        foto: photoUrl,
+        dibuatPada: serverTimestamp()
+      });
+
+      event.target.reset();
+      photoPreview.hidden = true;
+      photoPreview.removeAttribute("src");
+      alert("Kegiatan berhasil disimpan.");
+      await loadContent();
+    } catch (error) {
+      console.error("Gagal menyimpan kegiatan:", error);
+      alert(
+        "Gagal menyimpan kegiatan atau mengunggah foto.\n" +
+        (error.message || "Periksa Cloud name, preset, dan Firestore Rules.")
+      );
+    }
+  });
+
+} catch (error) {
+  console.error("Inisialisasi Firebase gagal:", error);
+  status.textContent =
+    "Sistem gagal dimulai. Periksa konfigurasi Firebase dan koneksi internet.";
+}
 </script>
 </body>
 </html>
