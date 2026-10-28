@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KAWANEE | Organisasi Penggiat Alam</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7f2;
+  color: #263629;
+  line-height: 1.7;
+}
+
+/* HEADER DAN LOGO */
+header {
+  background: #173f2b;
+  color: white;
+  text-align: center;
+  padding: 25px 15px 30px;
+}
+
+.logo-organisasi {
+  display: block;
+  width: 125px;
+  height: 125px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+  border-radius: 8px;
+}
+
+.logo {
+  font-size: 38px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin: 0;
+}
+
+header p {
+  margin: 5px 0;
+}
+
+/* NAVIGASI */
+nav {
+  background: #24583a;
+  padding: 8px 5px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav a {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+nav a:hover {
+  background: #39754d;
+  border-radius: 5px;
+}
+
+/* BERANDA */
+.hero {
+  background: linear-gradient(135deg, #24583a, #739b59);
+  color: white;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 30px;
+  line-height: 1.3;
+  margin: 0 0 15px;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: 0 auto 20px;
+}
+
+.button {
+  display: inline-block;
+  background: white;
+  color: #24583a;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* KONTEN */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px 15px;
+}
+
+.section-title {
+  color: #24583a;
+  border-bottom: 3px solid #9bbd79;
+  padding-bottom: 8px;
+  margin-top: 20px;
+}
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  margin: 15px 0;
+  box-shadow: 0 3px 10px #0000000d;
+}
+
+.card h3 {
+  color: #24583a;
+  margin-top: 5px;
+}
+
+.activity-date {
+  color: #537354;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* GALERI FOTO */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.gallery-item {
+  background: white;
+  border-radius: 10px;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 7px;
+  background: #dce5d7;
+}
+
+.photo-caption {
+  font-size: 13px;
+  margin: 8px 3px;
+}
+
+/* KONTAK */
+.contact-item {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+/* FOOTER */
+footer {
+  background: #173f2b;
+  color: white;
+  text-align: center;
+  padding: 22px 12px;
+  margin-top: 25px;
+  font-size: 14px;
+}
+
+footer p {
+  margin: 5px;
+}
+
+/* TAMPILAN LAYAR BESAR */
+@media (min-width: 650px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .logo-organisasi {
+    width: 145px;
+    height: 145px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header id="beranda">
+
+  <img
+    src="https://raw.githubusercontent.com/Idooivan/kawanee-website/a13ee35b7620728235faac49944e2b0082fa789b/Desain%20tanpa%20judul_20260809_102703_0000.png"
+    alt="Logo Organisasi KAWANEE"
+    class="logo-organisasi">
+
+  <div class="logo">KAWANEE</div>
+  <p>Organisasi Penggiat Alam</p>
+  <p>PRAY, WORK, ADVENTURE</p>
+
+</header>
+
+<!-- MENU NAVIGASI -->
+<nav>
+  <a href="#beranda">Beranda</a>
+  <a href="#profil">Profil</a>
+  <a href="#kegiatan">Kegiatan</a>
+  <a href="#galeri">Galeri Foto</a>
+  <a href="#kontak">Kontak</a>
+</nav>
+
+<!-- HALAMAN BERANDA -->
+<section class="hero">
+  <h1>Selamat Datang di KAWANEE</h1>
+
+  <p>
+    Rumah persaudaraan bagi para penggiat alam,
+    pecinta lingkungan, dan Aktivis penanggulangan bencana alam.
+  </p>
+
+  <a href="#kegiatan" class="button">
+    Lihat Informasi Kegiatan
+  </a>
+</section>
+
+<main class="container">
+
+  <!-- PROFIL ORGANISASI -->
+  <section id="profil">
+    <h2 class="section-title">Profil Organisasi</h2>
+
+    <div class="card">
+      <h3>Tentang KAWANEE</h3>
+
+      <p>
+        KAWANEE adalah organisasi penggiat alam yang menjadi
+        wadah persaudaraan, pengembangan kemampuan, kegiatan
+        alam terbuka, serta kepedulian terhadap lingkungan.
+      </p>
+
+      <p>
+        Website ini merupakan pusat informasi organisasi,
+        publikasi kegiatan, dan dokumentasi perjalanan
+        KAWANEE.
+      </p>
+
+      <h3>Visi</h3>
+      <p>
+        Menjadi wadah penggiat alam yang solid, berwawasan lingkungan yang luas, serta
+berdedikasi tinggi terhadap pelestarian alam dan kemanusiaan.
+      </p>
+
+      <h3>Misi</h3>
+      <ul>
+        <li>Menyelenggarakan kegiatan kealaman yang aman (safety first) dan bertanggung 
+jawab.</li>
+        <li>Melakukan aksi nyata konservasi lingkungan hidup dan gerakan edukasi masyarakat.</li>
+        <li>Mengembangkan potensi diri, keahlian, dan jiwa kepemimpinan para anggota</li>
+        <li>Berperan aktif dalam kegiatan kemanusiaan dan penanggulangan bencana alam.</li>
+      </ul>
+
+      <p>
+       
+      </p>
+    </div>
+  </section>
+
+  <!-- INFORMASI KEGIATAN -->
+  <section id="kegiatan">
+    <h2 class="section-title">Informasi Kegiatan</h2>
+
+    <div class="card">
+      <span class="activity-date">INFORMASI ORGANISASI</span>
+
+      <h3>Selamat Datang di Informasi Kegiatan KAWANEE</h3>
+
+      <p>
+        Bagian ini digunakan untuk menyampaikan pengumuman,
+        agenda, jadwal kegiatan, dan laporan aktivitas organisasi.
+      </p>
+
+      <p>
+        Informasi kegiatan terbaru akan ditampilkan di bagian ini.
+      </p>
+    </div>
+
+    <!--
+    CARA MENAMBAHKAN BERITA KEGIATAN:
+
+    Salin blok di bawah ini, kemudian letakkan sebelum
+    penutup section kegiatan.
+
+    <div class="card">
+      <span class="activity-date">12 DESEMBER 2026</span>
+      <h3>Judul Kegiatan</h3>
+      <p><b>Lokasi:</b> Nama lokasi kegiatan</p>
+      <p>
+        Tuliskan informasi dan deskripsi kegiatan di sini.
+      </p>
+    </div>
+
+    Ganti tanggal, judul, lokasi, dan deskripsi sesuai kegiatan.
+    -->
+
+  </section>
+
+  <!-- GALERI FOTO -->
+  <section id="galeri">
+    <h2 class="section-title">Galeri Foto Kegiatan</h2>
+
+    <p>
+      Dokumentasi perjalanan, kegiatan alam terbuka,
+      dan aktivitas lingkungan KAWANEE.
+    </p>
+
+    <div class="gallery">
+
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=600&q=80"
+          alt="Ilustrasi kegiatan pendakian">
+        <p class="photo-caption">Kegiatan alam terbuka</p>
+      </div>
+
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=600&q=80"
+          alt="Ilustrasi keindahan alam">
+        <p class="photo-caption">Pendakian</p>
+      </div>
+
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"
+          alt="Ilustrasi pemandangan pegunungan">
+        <p class="photo-caption">Penanggulangan Bencana Alam</p>
+      </div>
+
+    </div>
+
+   
+    </p>
+
+    <!--
+    CARA MENAMBAHKAN FOTO:
+
+    Salin blok berikut dan letakkan di dalam div class="gallery".
+
+    <div class="gallery-item">
+      <img src="ALAMAT-FOTO" alt="Deskripsi foto">
+      <p class="photo-caption">Nama kegiatan dan tanggal</p>
+    </div>
+
+    ALAMAT-FOTO harus berupa alamat gambar yang dapat diakses
+    publik. Foto dari galeri HP perlu diunggah ke tempat hosting
+    gambar atau website terlebih dahulu.
+    -->
+
+  </section>
+
+  <!-- KONTAK ORGANISASI -->
+  <section id="kontak">
+    <h2 class="section-title">Kontak Organisasi</h2>
+
+    <div class="card">
+      <p class="contact-item">
+        <b>Nama organisasi:</b> KAWANEE
+      </p>
+
+      <p class="contact-item">
+        
+      <p>
+        Untuk informasi lebih lanjut, silakan hubungi
+        pengurus melalui kontak resmi organisasi.
+      </p>
+
+     
+      <p>Sekretariat: Perumahan Pesona Cikahuripan 6 B4 No. 16
+Desa Cikahuripan Kecamatan Klapanunggal Kabupaten Bogor</p>
+      <p>Email: Kawaneeid@gmail.com</p>
+      <p>Instagram: @Kawanee_id</p>
+      <p>Telpon: 085776121705</p>
+      -->
+    </div>
+  </section>
+
+</main>
+
+<!-- BAGIAN BAWAH WEBSITE -->
+<footer>
+  <p><b>KAWANEE</b></p>
+  <p>Organisasi Penggiat Alam</p>
+  <p>&copy; 2026 KAWANEE. Hak cipta dilindungi.</p>
+</footer>
+
+</body>
+</html>
