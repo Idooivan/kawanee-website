@@ -59,9 +59,17 @@ small{color:#53645a}
 <input id="activityDate" type="date" required>
 <label>Deskripsi kegiatan</label>
 <textarea id="activityBody" rows="4" maxlength="10000" required></textarea>
-<label>URL foto langsung (opsional)</label>
-<input id="activityPhoto" type="url" placeholder="https://...">
-<small>Gunakan URL gambar langsung yang dapat diakses publik.</small><br>
+
+<label>Foto kegiatan</label>
+<input
+  id="activityPhoto"
+  type="file"
+  accept="image/jpeg,image/png,image/webp"
+>
+<img id="photoPreview" alt="Pratinjau foto"
+  hidden style="max-width:100%;max-height:240px;border-radius:8px">
+<small>Pilih foto JPG, PNG, atau WebP dari galeri HP. Maksimal 5 MB.</small>
+  
 <button type="submit">Simpan Kegiatan</button>
 </form>
 </section>
@@ -213,8 +221,80 @@ $("infoForm").addEventListener("submit", async e => {
   }
 });
 
+
+const CLOUD_NAME = "Kawanee_galeri";
+const UPLOAD_PRESET = "kawanee_galeri";
+
+const photoInput = document.getElementById("activityPhoto");
+const photoPreview = document.getElementById("photoPreview");
+
+photoInput.addEventListener("change", () => {
+  const file = photoInput.files[0];
+
+  if (!file) {
+    photoPreview.hidden = true;
+    photoPreview.removeAttribute("src");
+    return;
+  }
+
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!allowed.includes(file.type) || file.size > 5 * 1024 * 1024) {
+    alert("Pilih foto JPG, PNG, atau WebP dengan ukuran maksimal 5 MB.");
+    photoInput.value = "";
+    photoPreview.hidden = true;
+    return;
+  }
+
+  photoPreview.src = URL.createObjectURL(file);
+  photoPreview.hidden = false;
+});
+
 $("activityForm").addEventListener("submit", async e => {
   e.preventDefault();
+
+  const file = photoInput.files[0];
+  let photoUrl = "";
+
+  try {
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET);
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.secure_url) {
+        throw new Error("Unggahan foto gagal.");
+      }
+
+      photoUrl = result.secure_url;
+    }
+
+    await addDoc(collection(db, "kegiatan"), {
+      judul: $("activityTitle").value.trim(),
+      tanggal: $("activityDate").value,
+      deskripsi: $("activityBody").value.trim(),
+      foto: photoUrl,
+      dibuatPada: serverTimestamp()
+    });
+
+    e.target.reset();
+    photoPreview.hidden = true;
+    photoPreview.removeAttribute("src");
+    alert("Kegiatan berhasil disimpan.");
+    await loadContent();
+  } catch (error) {
+    console.error(error);
+    alert("Gagal menyimpan kegiatan atau mengunggah foto. Periksa Cloud name, preset, dan Firestore Rules.");
+  }
+});
+;
   const photo = $("activityPhoto").value.trim();
   if (photo && !/^https?:\/\//i.test(photo)) {
     alert("URL foto harus diawali https:// atau http://");
