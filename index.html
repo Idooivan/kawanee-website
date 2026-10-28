@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#183d2b">
-  <meta name="description" content="Website resmi KAWANEE, organisasi penggiat alam yang bergerak dalam kegiatan alam terbuka dan pemberdayaan masyarakat.">
+  <meta name="description" content="Website resmi KAWANEE, organisasi penggiat alam.">
   <title>KAWANEE | Organisasi Penggiat Alam</title>
 
   <style>
@@ -13,15 +13,13 @@
       --green: #183d2b;
       --green-light: #286746;
       --cream: #f5f7f2;
-      --white: #ffffff;
+      --white: #fff;
       --text: #24342a;
       --muted: #647269;
       --border: #e0e7df;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html {
       scroll-behavior: smooth;
@@ -36,13 +34,8 @@
       line-height: 1.7;
     }
 
-    a {
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-    }
+    a { color: inherit; }
+    img { max-width: 100%; }
 
     .navbar {
       position: sticky;
@@ -62,7 +55,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 0;
       text-decoration: none;
       font-weight: bold;
       font-size: 21px;
@@ -80,7 +72,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
@@ -90,9 +82,7 @@
       font-size: 14px;
     }
 
-    .nav-links a:hover {
-      text-decoration: underline;
-    }
+    .nav-links a:hover { text-decoration: underline; }
 
     .hero {
       min-height: 440px;
@@ -146,18 +136,14 @@
       font-weight: bold;
     }
 
-    .button:hover {
-      background: white;
-    }
+    .button:hover { background: white; }
 
     .container {
       width: min(1120px, 90%);
       margin: auto;
     }
 
-    .section {
-      padding: 65px 0;
-    }
+    .section { padding: 65px 0; }
 
     .section-title {
       text-align: center;
@@ -176,7 +162,7 @@
 
     .about {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.15fr .85fr;
       gap: 28px;
       align-items: stretch;
       margin-top: 32px;
@@ -197,18 +183,14 @@
       line-height: 1.4;
     }
 
-    .card p {
-      overflow-wrap: anywhere;
-    }
+    .card p { overflow-wrap: anywhere; }
 
     .vision-list {
       padding-left: 20px;
       margin-bottom: 0;
     }
 
-    .vision-list li {
-      margin-bottom: 9px;
-    }
+    .vision-list li { margin-bottom: 9px; }
 
     .content-grid {
       display: grid;
@@ -234,10 +216,6 @@
       height: 215px;
       object-fit: cover;
       background: #e5ebe4;
-    }
-
-    .content-image[hidden] {
-      display: none;
     }
 
     .content-body {
@@ -287,9 +265,7 @@
       color: var(--muted);
     }
 
-    .error-state {
-      color: #a52b2b;
-    }
+    .error-state { color: #a52b2b; }
 
     .gallery-grid {
       display: grid;
@@ -304,6 +280,7 @@
       border-radius: 10px;
       background: #e5ebe4;
       text-decoration: none;
+      cursor: zoom-in;
     }
 
     .gallery-item img {
@@ -311,12 +288,10 @@
       width: 100%;
       height: 210px;
       object-fit: cover;
-      transition: transform 0.25s ease;
+      transition: transform .25s ease;
     }
 
-    .gallery-item:hover img {
-      transform: scale(1.04);
-    }
+    .gallery-item:hover img { transform: scale(1.04); }
 
     .gallery-caption {
       padding: 10px;
@@ -326,9 +301,54 @@
       overflow-wrap: anywhere;
     }
 
-    .contact-section {
-      background: #e9f0e7;
+    /* Tampilan foto besar */
+    .photo-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .92);
     }
+
+    .photo-lightbox[hidden] { display: none; }
+
+    .photo-lightbox-content {
+      max-width: 1000px;
+      width: 100%;
+      max-height: 90vh;
+      text-align: center;
+      color: white;
+    }
+
+    .photo-lightbox-content img {
+      max-width: 100%;
+      max-height: 76vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .photo-lightbox-caption {
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .photo-lightbox-close {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      border: 0;
+      border-radius: 8px;
+      padding: 9px 15px;
+      background: white;
+      color: var(--green);
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .contact-section { background: #e9f0e7; }
 
     .contact-grid {
       display: grid;
@@ -362,9 +382,7 @@
       font-size: 13px;
     }
 
-    footer p {
-      margin: 5px 0;
-    }
+    footer p { margin: 5px 0; }
 
     @media (max-width: 800px) {
       .navbar {
@@ -373,13 +391,8 @@
         gap: 10px;
       }
 
-      .nav-links {
-        gap: 15px;
-      }
-
-      .about {
-        grid-template-columns: 1fr;
-      }
+      .nav-links { gap: 15px; }
+      .about { grid-template-columns: 1fr; }
 
       .content-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -389,19 +402,13 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
+      .contact-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .navbar {
-        padding: 10px 5%;
-      }
+      .navbar { padding: 10px 5%; }
 
-      .brand {
-        font-size: 18px;
-      }
+      .brand { font-size: 18px; }
 
       .brand img {
         width: 38px;
@@ -413,45 +420,29 @@
         gap: 12px;
       }
 
-      .nav-links a {
-        font-size: 12px;
-      }
+      .nav-links a { font-size: 12px; }
 
       .hero {
         min-height: 390px;
         padding: 45px 18px;
       }
 
-      .hero p {
-        font-size: 15px;
-      }
+      .hero p { font-size: 15px; }
+      .section { padding: 45px 0; }
+      .container { width: 92%; }
+      .content-grid { grid-template-columns: 1fr; }
+      .content-image { height: 220px; }
 
-      .section {
-        padding: 45px 0;
-      }
+      .gallery-grid { gap: 9px; }
 
-      .container {
-        width: 92%;
-      }
+      .gallery-item img { height: 145px; }
+      .card { padding: 19px; }
 
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
+      .photo-lightbox { padding: 12px; }
 
-      .content-image {
-        height: 220px;
-      }
-
-      .gallery-grid {
-        gap: 9px;
-      }
-
-      .gallery-item img {
-        height: 145px;
-      }
-
-      .card {
-        padding: 19px;
+      .photo-lightbox-close {
+        top: 10px;
+        right: 10px;
       }
     }
   </style>
@@ -487,7 +478,7 @@
           alt="Logo KAWANEE"
           onerror="this.style.display='none'"
         >
-        <h1>PRAY, WORK, ADVENTURE</h1>
+        <h1>Selamat Datang di KAWANEE</h1>
         <p>
           Wadah penggiat alam untuk belajar, berkegiatan,
           menjaga lingkungan, dan berkontribusi bagi masyarakat.
@@ -542,9 +533,8 @@
       <div class="container">
         <h2 class="section-title">Informasi Terbaru</h2>
         <p class="section-subtitle">
-          Pengumuman dan informasi resmi yang diterbitkan oleh pengurus KAWANEE.
+          Pengumuman dan informasi resmi dari pengurus KAWANEE.
         </p>
-
         <div id="informasiList" class="content-grid" aria-live="polite">
           <div class="loading-state">Memuat informasi terbaru...</div>
         </div>
@@ -555,9 +545,8 @@
       <div class="container">
         <h2 class="section-title">Kegiatan KAWANEE</h2>
         <p class="section-subtitle">
-          Dokumentasi kegiatan dan agenda organisasi yang dibagikan oleh pengurus.
+          Agenda dan dokumentasi kegiatan organisasi.
         </p>
-
         <div id="kegiatanList" class="content-grid" aria-live="polite">
           <div class="loading-state">Memuat kegiatan...</div>
         </div>
@@ -568,9 +557,8 @@
       <div class="container">
         <h2 class="section-title">Galeri Foto</h2>
         <p class="section-subtitle">
-          Foto kegiatan yang diunggah melalui halaman admin KAWANEE.
+          Ketuk foto untuk melihatnya dalam ukuran besar.
         </p>
-
         <div id="galeriList" class="gallery-grid" aria-live="polite">
           <div class="loading-state">Memuat galeri foto...</div>
         </div>
@@ -598,9 +586,7 @@
           <article class="contact-card">
             <h3>Email</h3>
             <p>
-              <a href="mailto:Kawaneeid@gmail.com">
-                Kawaneeid@gmail.com
-              </a>
+              <a href="mailto:Kawaneeid@gmail.com">Kawaneeid@gmail.com</a>
             </p>
           </article>
 
@@ -633,6 +619,28 @@
     <p>&copy; <span id="tahun"></span> KAWANEE. Seluruh hak cipta dilindungi.</p>
   </footer>
 
+  <!-- Jendela foto besar -->
+  <div
+    id="photoLightbox"
+    class="photo-lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Foto kegiatan"
+    hidden
+  >
+    <button
+      type="button"
+      id="closeLightbox"
+      class="photo-lightbox-close"
+      aria-label="Tutup foto"
+    >✕ Tutup</button>
+
+    <div class="photo-lightbox-content">
+      <img id="lightboxImage" src="" alt="Foto kegiatan KAWANEE">
+      <div id="lightboxCaption" class="photo-lightbox-caption"></div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from
       "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
@@ -656,33 +664,29 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    const lightbox = document.getElementById("photoLightbox");
+    const closeLightbox = document.getElementById("closeLightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+
     document.getElementById("tahun").textContent =
       new Date().getFullYear();
 
     function buatElemen(tag, className, text) {
       const el = document.createElement(tag);
-
-      if (className) {
-        el.className = className;
-      }
-
+      if (className) el.className = className;
       if (text !== undefined && text !== null) {
         el.textContent = String(text);
       }
-
       return el;
     }
 
     function formatTanggal(tanggal) {
       if (!tanggal) return "";
 
-      // Tanggal kegiatan disimpan dalam format YYYY-MM-DD.
-      // Tambahkan waktu siang agar tanggal tidak bergeser ke hari sebelumnya.
       const date = new Date(String(tanggal) + "T12:00:00");
 
-      if (Number.isNaN(date.getTime())) {
-        return String(tanggal);
-      }
+      if (Number.isNaN(date.getTime())) return String(tanggal);
 
       return new Intl.DateTimeFormat("id-ID", {
         day: "numeric",
@@ -698,9 +702,7 @@
         return value.toMillis();
       }
 
-      if (value instanceof Date) {
-        return value.getTime();
-      }
+      if (value instanceof Date) return value.getTime();
 
       return 0;
     }
@@ -722,35 +724,26 @@
         buatElemen("p", "", data.isi || "Belum ada isi informasi.")
       );
 
-      const meta = buatElemen(
-        "div",
-        "content-meta",
-        "Informasi KAWANEE"
+      body.appendChild(
+        buatElemen("div", "content-meta", "Informasi KAWANEE")
       );
 
-      body.appendChild(meta);
       card.appendChild(body);
-
       return card;
     }
 
     function buatKartuKegiatan(data) {
       const card = buatElemen("article", "content-card");
-      const foto = data.foto || "";
 
-      if (foto) {
+      if (data.foto) {
         const img = buatElemen("img", "content-image");
-        img.src = foto;
+        img.src = data.foto;
         img.alt = data.judul
           ? "Foto kegiatan: " + data.judul
           : "Foto kegiatan KAWANEE";
         img.loading = "lazy";
-        img.referrerPolicy = "no-referrer";
 
-        img.addEventListener("error", () => {
-          img.remove();
-        }, { once: true });
-
+        img.addEventListener("error", () => img.remove(), { once: true });
         card.appendChild(img);
       }
 
@@ -775,25 +768,57 @@
       );
 
       card.appendChild(body);
-
       return card;
     }
+
+    function bukaLightbox(url, judul) {
+      lightboxImage.src = url;
+      lightboxImage.alt = judul || "Foto kegiatan KAWANEE";
+      lightboxCaption.textContent = judul || "Kegiatan KAWANEE";
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+      closeLightbox.focus();
+    }
+
+    function tutupLightbox() {
+      lightbox.hidden = true;
+      lightboxImage.src = "";
+      lightboxImage.alt = "Foto kegiatan KAWANEE";
+      lightboxCaption.textContent = "";
+      document.body.style.overflow = "";
+    }
+
+    closeLightbox.addEventListener("click", tutupLightbox);
+
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) tutupLightbox();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !lightbox.hidden) {
+        tutupLightbox();
+      }
+    });
 
     function buatItemGaleri(data) {
       const link = buatElemen("a", "gallery-item");
       link.href = data.foto;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.setAttribute("aria-label", "Buka foto " + (data.judul || "kegiatan KAWANEE"));
+      link.setAttribute(
+        "aria-label",
+        "Perbesar foto " + (data.judul || "kegiatan KAWANEE")
+      );
+
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        bukaLightbox(data.foto, data.judul);
+      });
 
       const img = document.createElement("img");
       img.src = data.foto;
       img.alt = data.judul || "Foto kegiatan KAWANEE";
       img.loading = "lazy";
 
-      img.addEventListener("error", () => {
-        link.remove();
-      }, { once: true });
+      img.addEventListener("error", () => link.remove(), { once: true });
 
       const caption = buatElemen(
         "div",
@@ -805,44 +830,24 @@
       return link;
     }
 
-    function urutkanData(data) {
-      return data.sort((a, b) => {
-        // Kegiatan diurutkan berdasarkan tanggal kegiatan terbaru.
-        const dateA = a.tanggal
-          ? new Date(a.tanggal + "T12:00:00").getTime()
-          : 0;
-
-        const dateB = b.tanggal
-          ? new Date(b.tanggal + "T12:00:00").getTime()
-          : 0;
-
-        if (dateA && dateB && dateA !== dateB) {
-          return dateB - dateA;
-        }
-
-        return waktuDibuat(b) - waktuDibuat(a);
-      });
-    }
-
     function pasangListenerInformasi() {
       const container = document.getElementById("informasiList");
 
       onSnapshot(
         collection(db, "informasi"),
         snapshot => {
-          const data = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
+          const data = snapshot.docs.map(item => ({
+            id: item.id,
+            ...item.data()
           }));
 
           data.sort((a, b) => waktuDibuat(b) - waktuDibuat(a));
-
           container.replaceChildren();
 
           if (data.length === 0) {
             tampilkanStatus(
               container,
-              "Belum ada informasi. Informasi baru akan tampil di sini setelah ditambahkan oleh pengurus."
+              "Belum ada informasi. Informasi baru akan tampil setelah ditambahkan oleh pengurus."
             );
             return;
           }
@@ -869,12 +874,25 @@
       onSnapshot(
         collection(db, "kegiatan"),
         snapshot => {
-          const data = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
+          const data = snapshot.docs.map(item => ({
+            id: item.id,
+            ...item.data()
           }));
 
-          urutkanData(data);
+          data.sort((a, b) => {
+            const dateA = a.tanggal
+              ? new Date(a.tanggal + "T12:00:00").getTime()
+              : 0;
+            const dateB = b.tanggal
+              ? new Date(b.tanggal + "T12:00:00").getTime()
+              : 0;
+
+            if (dateA && dateB && dateA !== dateB) {
+              return dateB - dateA;
+            }
+
+            return waktuDibuat(b) - waktuDibuat(a);
+          });
 
           container.replaceChildren();
           galeri.replaceChildren();
@@ -882,14 +900,13 @@
           if (data.length === 0) {
             tampilkanStatus(
               container,
-              "Belum ada kegiatan. Kegiatan baru akan tampil otomatis setelah ditambahkan oleh pengurus."
+              "Belum ada kegiatan. Kegiatan akan tampil setelah ditambahkan oleh pengurus."
             );
 
             tampilkanStatus(
               galeri,
-              "Belum ada foto. Foto yang diunggah melalui admin akan muncul di galeri ini."
+              "Belum ada foto. Unggah foto melalui halaman admin untuk menampilkannya di sini."
             );
-
             return;
           }
 
@@ -905,7 +922,7 @@
           if (fotoKegiatan.length === 0) {
             tampilkanStatus(
               galeri,
-              "Belum ada foto kegiatan. Unggah foto melalui halaman admin untuk menampilkannya di sini."
+              "Belum ada foto kegiatan. Unggah foto melalui halaman admin."
             );
           } else {
             fotoKegiatan.forEach(item => {
@@ -935,7 +952,7 @@
       pasangListenerInformasi();
       pasangListenerKegiatan();
     } catch (error) {
-      console.error("Gagal menyiapkan halaman KAWANEE:", error);
+      console.error("Gagal menyiapkan website KAWANEE:", error);
     }
   </script>
 </body>
