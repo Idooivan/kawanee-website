@@ -13,17 +13,21 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--dark);margin:
 main{max-width:950px;margin:auto}
 header{text-align:center;padding:15px 0}
 section{background:white;padding:20px;margin:16px 0;border-radius:12px;box-shadow:0 3px 12px #20352a0d}
-h1{color:var(--green)}h2{font-size:21px;margin-top:0}
+h1{color:var(--green)}
+h2{font-size:21px;margin-top:0}
 label{display:block;font-weight:bold;margin-top:12px}
 input,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #bbb;border-radius:7px;font:inherit;background:white}
 textarea{min-height:100px;resize:vertical}
 button{padding:11px 15px;border:0;border-radius:7px;background:var(--green);color:white;font-size:14px;font-weight:bold;cursor:pointer;margin:5px 4px 5px 0}
 button:disabled{opacity:.6;cursor:wait}
-.danger{background:var(--red)}.secondary{background:#e4ebe5;color:var(--dark)}
+.danger{background:var(--red)}
+.secondary{background:#e4ebe5;color:var(--dark)}
 [hidden]{display:none!important}
 .muted,small{color:#59685e;font-size:13px}
 .status{padding:10px 12px;border-radius:7px;margin:12px 0;overflow-wrap:anywhere}
-.error{background:#ffeded;color:#9c2117}.success{background:#e6f5e9;color:#175b2b}.info{background:#eaf2ff;color:#194c87}
+.error{background:#ffeded;color:#9c2117}
+.success{background:#e6f5e9;color:#175b2b}
+.info{background:#eaf2ff;color:#194c87}
 .item{border-top:1px solid var(--border);padding:16px 0;overflow-wrap:anywhere}
 .item p{white-space:pre-wrap}
 .item-photo{width:120px;height:95px;object-fit:cover;border-radius:7px;margin:4px}
@@ -32,370 +36,942 @@ button:disabled{opacity:.6;cursor:wait}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
 .thumb{width:100%;height:100px;object-fit:cover;border-radius:7px}
 .tabs{display:flex;flex-wrap:wrap;gap:5px}
-.tab{background:#e4ebe5;color:var(--dark)}.tab.active{background:var(--green);color:white}
+.tab{background:#e4ebe5;color:var(--dark)}
+.tab.active{background:var(--green);color:white}
 hr{border:0;border-top:1px solid var(--border);margin:22px 0}
-@media(max-width:480px){body{padding:10px}section{padding:15px}button{padding:10px 12px}}
+@media(max-width:480px){
+  body{padding:10px}
+  section{padding:15px}
+  button{padding:10px 12px}
+}
 </style>
 </head>
 <body>
 <main>
-<header><h1>ADMIN KAWANEE</h1><p>Kelola informasi, kegiatan, dan galeri foto organisasi.</p></header>
+<header>
+  <h1>ADMIN KAWANEE</h1>
+  <p>Kelola informasi, kegiatan, dan galeri foto organisasi.</p>
+</header>
+
 <section id="loginSection">
-<h2>Login Pengurus</h2>
-<form id="loginForm">
-<label for="email">Email admin</label><input id="email" type="email" autocomplete="username" required>
-<label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required>
-<button id="loginButton" type="submit">Masuk</button>
-</form>
-<p id="status" class="status info" role="status">Menyiapkan sistem...</p>
+  <h2>Login Pengurus</h2>
+  <form id="loginForm">
+    <label for="email">Email admin</label>
+    <input id="email" type="email" autocomplete="username" required>
+
+    <label for="password">Kata sandi</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <button id="loginButton" type="submit">Masuk</button>
+  </form>
+  <p id="status" class="status info" role="status">Menyiapkan sistem...</p>
 </section>
 
 <div id="panel" hidden>
-<section>
-<p id="welcome"></p>
-<button id="refreshButton" class="secondary" type="button">Muat Ulang Data</button>
-<button id="logout" class="danger" type="button">Keluar</button>
-<p class="muted">Batas unggah: maksimal 20 foto per kegiatan/album, JPG/PNG/WebP, maksimal 5 MB per foto.</p>
-</section>
-<section>
-<div class="tabs">
-<button class="tab active" data-tab="infoArea" type="button">Informasi</button>
-<button class="tab" data-tab="activityArea" type="button">Kegiatan</button>
-<button class="tab" data-tab="galleryArea" type="button">Galeri Terpisah</button>
-</div>
-</section>
+  <section>
+    <p id="welcome"></p>
+    <button id="refreshButton" class="secondary" type="button">Muat Ulang Data</button>
+    <button id="logout" class="danger" type="button">Keluar</button>
+    <p class="muted">Batas unggah: maksimal 20 foto per kegiatan/album, JPG/PNG/WebP, maksimal 5 MB per foto.</p>
+  </section>
 
-<div id="infoArea"><section>
-<h2 id="infoHeading">Tambah Informasi</h2>
-<form id="infoForm">
-<input id="infoEditId" type="hidden">
-<label for="infoTitle">Judul informasi</label><input id="infoTitle" maxlength="200" required>
-<label for="infoBody">Isi informasi</label><textarea id="infoBody" maxlength="20000" required></textarea>
-<button id="infoSave" type="submit">Simpan Informasi</button>
-<button id="infoCancel" class="secondary" type="button" hidden>Batal Edit</button>
-</form>
-<div id="infoStatus" role="status"></div><hr>
-<h2>Informasi Tersimpan</h2><div id="infoList">Memuat data...</div>
-</section></div>
+  <section>
+    <div class="tabs">
+      <button class="tab active" data-tab="infoArea" type="button">Informasi</button>
+      <button class="tab" data-tab="activityArea" type="button">Kegiatan</button>
+      <button class="tab" data-tab="galleryArea" type="button">Galeri Terpisah</button>
+    </div>
+  </section>
 
-<div id="activityArea" hidden><section>
-<h2 id="activityHeading">Tambah Kegiatan</h2>
-<p class="muted">Saat mengedit, foto lama tetap dipertahankan. Centang foto lama yang ingin dihapus dari kegiatan.</p>
-<form id="activityForm">
-<input id="activityEditId" type="hidden">
-<label for="activityTitle">Nama kegiatan</label><input id="activityTitle" maxlength="200" required>
-<label for="activityDate">Tanggal kegiatan</label><input id="activityDate" type="date" required>
-<label for="activityBody">Deskripsi kegiatan</label><textarea id="activityBody" maxlength="20000" required></textarea>
-<label for="activityPhotos">Pilih foto kegiatan (bisa beberapa)</label>
-<input id="activityPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-<small>Foto baru akan diunggah ke Cloudinary. Maksimal 20 foto keseluruhan per kegiatan.</small>
-<div id="activityOldPhotos" class="grid"></div><div id="activityNewPreview" class="grid"></div>
-<button id="activitySave" type="submit">Simpan Kegiatan</button>
-<button id="activityCancel" class="secondary" type="button" hidden>Batal Edit</button>
-</form>
-<div id="activityStatus" role="status"></div><hr>
-<h2>Kegiatan Tersimpan</h2><div id="activityList">Memuat data...</div>
-</section></div>
+  <div id="infoArea">
+    <section>
+      <h2 id="infoHeading">Tambah Informasi</h2>
+      <form id="infoForm">
+        <input id="infoEditId" type="hidden">
 
-<div id="galleryArea" hidden><section>
-<h2 id="galleryHeading">Tambah Album Galeri</h2>
-<p class="muted">Album ini tampil di Galeri Foto website tanpa harus membuat kegiatan.</p>
-<form id="galleryForm">
-<input id="galleryEditId" type="hidden">
-<label for="galleryTitle">Judul album</label><input id="galleryTitle" maxlength="200" required>
-<label for="galleryBody">Deskripsi album (opsional)</label><textarea id="galleryBody" maxlength="20000"></textarea>
-<label for="galleryPhotos">Pilih foto album (bisa beberapa)</label>
-<input id="galleryPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-<small>Album baru wajib memiliki minimal satu foto. Maksimal 20 foto per album.</small>
-<div id="galleryOldPhotos" class="grid"></div><div id="galleryNewPreview" class="grid"></div>
-<button id="gallerySave" type="submit">Simpan Album</button>
-<button id="galleryCancel" class="secondary" type="button" hidden>Batal Edit</button>
-</form>
-<div id="galleryStatus" role="status"></div><hr>
-<h2>Album Tersimpan</h2><div id="galleryList">Memuat data...</div>
-</section></div>
+        <label for="infoTitle">Judul informasi</label>
+        <input id="infoTitle" maxlength="200" required>
+
+        <label for="infoBody">Isi informasi</label>
+        <textarea id="infoBody" maxlength="20000" required></textarea>
+
+        <button id="infoSave" type="submit">Simpan Informasi</button>
+        <button id="infoCancel" class="secondary" type="button" hidden>Batal Edit</button>
+      </form>
+
+      <div id="infoStatus" role="status"></div>
+      <hr>
+      <h2>Informasi Tersimpan</h2>
+      <div id="infoList">Memuat data...</div>
+    </section>
+  </div>
+
+  <div id="activityArea" hidden>
+    <section>
+      <h2 id="activityHeading">Tambah Kegiatan</h2>
+      <p class="muted">Saat mengedit, foto lama tetap dipertahankan. Centang foto lama yang ingin dihapus dari kegiatan.</p>
+
+      <form id="activityForm">
+        <input id="activityEditId" type="hidden">
+
+        <label for="activityTitle">Nama kegiatan</label>
+        <input id="activityTitle" maxlength="200" required>
+
+        <label for="activityDate">Tanggal kegiatan</label>
+        <input id="activityDate" type="date" required>
+
+        <label for="activityBody">Deskripsi kegiatan</label>
+        <textarea id="activityBody" maxlength="20000" required></textarea>
+
+        <label for="activityPhotos">Pilih foto kegiatan (bisa beberapa)</label>
+        <input id="activityPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+
+        <small>Foto baru akan diunggah ke Cloudinary. Maksimal 20 foto keseluruhan per kegiatan.</small>
+        <div id="activityOldPhotos" class="grid"></div>
+        <div id="activityNewPreview" class="grid"></div>
+
+        <button id="activitySave" type="submit">Simpan Kegiatan</button>
+        <button id="activityCancel" class="secondary" type="button" hidden>Batal Edit</button>
+      </form>
+
+      <div id="activityStatus" role="status"></div>
+      <hr>
+      <h2>Kegiatan Tersimpan</h2>
+      <div id="activityList">Memuat data...</div>
+    </section>
+  </div>
+
+  <div id="galleryArea" hidden>
+    <section>
+      <h2 id="galleryHeading">Tambah Album Galeri</h2>
+      <p class="muted">Album ini tampil di Galeri Foto website tanpa harus membuat kegiatan.</p>
+
+      <form id="galleryForm">
+        <input id="galleryEditId" type="hidden">
+
+        <label for="galleryTitle">Judul album</label>
+        <input id="galleryTitle" maxlength="200" required>
+
+        <label for="galleryBody">Deskripsi album (opsional)</label>
+        <textarea id="galleryBody" maxlength="20000"></textarea>
+
+        <label for="galleryPhotos">Pilih foto album (bisa beberapa)</label>
+        <input id="galleryPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+
+        <small>Album baru wajib memiliki minimal satu foto. Maksimal 20 foto per album.</small>
+        <div id="galleryOldPhotos" class="grid"></div>
+        <div id="galleryNewPreview" class="grid"></div>
+
+        <button id="gallerySave" type="submit">Simpan Album</button>
+        <button id="galleryCancel" class="secondary" type="button" hidden>Batal Edit</button>
+      </form>
+
+      <div id="galleryStatus" role="status"></div>
+      <hr>
+      <h2>Album Tersimpan</h2>
+      <div id="galleryList">Memuat data...</div>
+    </section>
+  </div>
 </div>
 </main>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-import {getFirestore,collection,addDoc,getDocs,updateDoc,deleteDoc,doc,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-const firebaseConfig={
-  apiKey:"AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
-  authDomain:"kawanee-website.firebaseapp.com",
-  projectId:"kawanee-website",
-  storageBucket:"kawanee-website.firebasestorage.app",
-  messagingSenderId:"285839151481",
-  appId:"1:285839151481:web:02f2ed0a52f162ed7adfa8"
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0j1Xu-1ZHUotuqWBlTc8WkN7NUsd_V1g",
+  authDomain: "kawanee-website.firebaseapp.com",
+  projectId: "kawanee-website",
+  storageBucket: "kawanee-website.firebasestorage.app",
+  messagingSenderId: "285839151481",
+  appId: "1:285839151481:web:02f2ed0a52f162ed7adfa8"
 };
-const ADMIN_UID="tbv7AC93oaMA7WigsVO858XpHeE2";
-const CLOUD_NAME="tjbg7cft";
-const UPLOAD_PRESET="kawanee_galeri";
-const $=id=>document.getElementById(id);
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-let currentUser=null,busy=false,activityOld=[],galleryOld=[];
-let activityRemove=new Set(),galleryRemove=new Set();
 
-function status(id,msg,type='info'){
-  const e=$(id);e.className=msg?'status '+type:'';e.textContent=msg;
+/* DAFTAR UID ADMIN YANG DIIZINKAN */
+const ADMIN_UIDS = [
+  "tbv7AC93oaMA7WigsVO858XpHeE2",
+  "A3EUjKiZ7qQmMpihRMSEs6nTlzd2"
+];
+
+/* KONFIGURASI CLOUDINARY */
+const CLOUD_NAME = "tjbg7cft";
+const UPLOAD_PRESET = "kawanee_galeri";
+
+const $ = id => document.getElementById(id);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+let busy = false;
+let activityOld = [];
+let galleryOld = [];
+let activityRemove = new Set();
+let galleryRemove = new Set();
+let rejectedAccount = false;
+
+function status(id, msg, type = "info") {
+  const e = $(id);
+  e.className = msg ? "status " + type : "";
+  e.textContent = msg;
 }
-function elem(tag,text,cls=''){
-  const e=document.createElement(tag);
-  if(text!==undefined)e.textContent=text;
-  if(cls)e.className=cls;
+
+function elem(tag, text, cls = "") {
+  const e = document.createElement(tag);
+  if (text !== undefined) e.textContent = text;
+  if (cls) e.className = cls;
   return e;
 }
-function requireAdmin(){
-  if(!currentUser||currentUser.uid!==ADMIN_UID)throw Error('Akses ditolak. Login dengan akun admin KAWANEE.');
-}
-function errorText(e){
-  console.error(e);
-  const c=e?.code||'';
-  if(c.includes('permission-denied'))return'Akses Firestore ditolak. Periksa Security Rules.';
-  if(c.includes('invalid-credential')||c.includes('invalid-login'))return'Email atau kata sandi salah.';
-  if(c.includes('network'))return'Koneksi internet bermasalah.';
-  return e?.message||'Terjadi kesalahan.';
-}
-function busyButton(id,on,text='Menyimpan...'){
-  const b=$(id);
-  if(on){b.dataset.oldText=b.textContent;b.textContent=text;b.disabled=true}
-  else{b.textContent=b.dataset.oldText||b.textContent;b.disabled=false}
-}
-function photosOf(d){
-  const list=Array.isArray(d.fotos)?d.fotos:[];
-  return [...new Set([...list,d.foto].filter(x=>typeof x==='string'&&x.trim()))];
-}
-function validFiles(files){
-  const f=[...files];
-  if(f.length>20)throw Error('Pilih maksimal 20 foto sekaligus.');
-  for(const x of f){
-    if(!['image/jpeg','image/png','image/webp'].includes(x.type))throw Error('Format foto harus JPG, PNG, atau WebP.');
-    if(x.size>5*1024*1024)throw Error('Setiap foto maksimal 5 MB.');
+
+function requireAdmin() {
+  if (!currentUser || !ADMIN_UIDS.includes(currentUser.uid)) {
+    throw Error("Akses ditolak. Login dengan akun admin KAWANEE.");
   }
+}
+
+function errorText(e) {
+  console.error(e);
+  const c = e?.code || "";
+
+  if (c.includes("permission-denied")) {
+    return "Akses Firestore ditolak. Periksa Security Rules.";
+  }
+
+  if (
+    c.includes("invalid-credential") ||
+    c.includes("invalid-login") ||
+    c.includes("user-not-found") ||
+    c.includes("wrong-password") ||
+    c.includes("invalid-email")
+  ) {
+    return "Email atau kata sandi salah. Periksa kembali akun Anda.";
+  }
+
+  if (c.includes("too-many-requests")) {
+    return "Terlalu banyak percobaan login. Coba lagi nanti.";
+  }
+
+  if (c.includes("network")) {
+    return "Koneksi internet bermasalah. Periksa koneksi Anda.";
+  }
+
+  if (c.includes("unauthorized-domain")) {
+    return "Domain website belum diizinkan di pengaturan Firebase Authentication.";
+  }
+
+  return e?.message || "Terjadi kesalahan.";
+}
+
+function busyButton(id, on, text = "Menyimpan...") {
+  const b = $(id);
+
+  if (on) {
+    b.dataset.oldText = b.textContent;
+    b.textContent = text;
+    b.disabled = true;
+  } else {
+    b.textContent = b.dataset.oldText || b.textContent;
+    b.disabled = false;
+  }
+}
+
+function photosOf(d) {
+  const list = Array.isArray(d.fotos) ? d.fotos : [];
+  return [...new Set(
+    [...list, d.foto].filter(
+      x => typeof x === "string" && x.trim()
+    )
+  )];
+}
+
+function validFiles(files) {
+  const f = [...files];
+
+  if (f.length > 20) {
+    throw Error("Pilih maksimal 20 foto sekaligus.");
+  }
+
+  for (const x of f) {
+    if (!["image/jpeg", "image/png", "image/webp"].includes(x.type)) {
+      throw Error("Format foto harus JPG, PNG, atau WebP.");
+    }
+
+    if (x.size > 5 * 1024 * 1024) {
+      throw Error("Setiap foto maksimal 5 MB.");
+    }
+  }
+
   return f;
 }
-async function uploadPhoto(file){
+
+async function uploadPhoto(file) {
   requireAdmin();
-  const fd=new FormData();fd.append('file',file);fd.append('upload_preset',UPLOAD_PRESET);
-  const r=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:'POST',body:fd});
-  const j=await r.json();
-  if(!r.ok||!j.secure_url)throw Error(j.error?.message||'Gagal mengunggah foto ke Cloudinary.');
+
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+
+  const r = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: fd
+    }
+  );
+
+  const j = await r.json();
+
+  if (!r.ok || !j.secure_url) {
+    throw Error(j.error?.message || "Gagal mengunggah foto ke Cloudinary.");
+  }
+
   return j.secure_url;
 }
-async function uploadMany(files,statusId){
-  const urls=[];
-  for(let i=0;i<files.length;i++){
-    status(statusId,`Mengunggah foto ${i+1} dari ${files.length}...`,'info');
+
+async function uploadMany(files, statusId) {
+  const urls = [];
+
+  for (let i = 0; i < files.length; i++) {
+    status(
+      statusId,
+      `Mengunggah foto ${i + 1} dari ${files.length}...`,
+      "info"
+    );
+
     urls.push(await uploadPhoto(files[i]));
   }
+
   return urls;
 }
 
-$('loginForm').addEventListener('submit',async e=>{
-  e.preventDefault();busyButton('loginButton',true,'Memeriksa akun...');status('status','');
-  try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value)}
-  catch(err){status('status','Login gagal: '+errorText(err),'error')}
-  finally{busyButton('loginButton',false)}
-});
-$('logout').addEventListener('click',()=>signOut(auth));
-onAuthStateChanged(auth,async user=>{
-  currentUser=user;
-  if(!user){$('panel').hidden=true;$('loginSection').hidden=false;status('status','Silakan login sebagai admin.');return}
-  if(user.uid!==ADMIN_UID){
-    status('status','Akses ditolak: akun ini bukan admin KAWANEE.','error');
-    await signOut(auth);return;
+/* LOGIN */
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (busy) return;
+
+  busyButton("loginButton", true, "Memeriksa akun...");
+  status("status", "");
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
+
+    $("password").value = "";
+  } catch (err) {
+    status("status", "Login gagal: " + errorText(err), "error");
+  } finally {
+    busyButton("loginButton", false);
   }
-  $('loginSection').hidden=true;$('panel').hidden=false;
-  $('welcome').textContent='Login sebagai: '+(user.email||'Admin KAWANEE');
-  try{await loadAll()}catch(e){status('status',errorText(e),'error')}
 });
-try{await setPersistence(auth,browserLocalPersistence)}catch(e){console.error(e)}
 
-document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));
-  ['infoArea','activityArea','galleryArea'].forEach(id=>$(id).hidden=id!==btn.dataset.tab);
-}));
-$('refreshButton').addEventListener('click',()=>loadAll().catch(e=>status('status',errorText(e),'error')));
+/* LOGOUT */
+$("logout").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    status("status", "Gagal keluar: " + errorText(e), "error");
+  }
+});
 
-async function loadAll(){
+/* AUTENTIKASI DAN PEMERIKSAAN DUA UID ADMIN */
+onAuthStateChanged(auth, async user => {
+  currentUser = user;
+
+  if (!user) {
+    $("panel").hidden = true;
+    $("loginSection").hidden = false;
+
+    if (rejectedAccount) {
+      status(
+        "status",
+        "Akses ditolak: akun ini bukan admin KAWANEE. Gunakan akun admin yang terdaftar.",
+        "error"
+      );
+      rejectedAccount = false;
+    } else {
+      status("status", "Silakan login sebagai admin.");
+    }
+
+    return;
+  }
+
+  if (!ADMIN_UIDS.includes(user.uid)) {
+    currentUser = null;
+    rejectedAccount = true;
+
+    $("panel").hidden = true;
+    $("loginSection").hidden = false;
+
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Gagal mengeluarkan akun:", error);
+      status(
+        "status",
+        "Akun ini tidak memiliki akses admin. Silakan keluar dan login dengan akun admin KAWANEE.",
+        "error"
+      );
+    }
+
+    return;
+  }
+
+  $("loginSection").hidden = true;
+  $("panel").hidden = false;
+
+  $("welcome").textContent =
+    "Login sebagai: " + (user.email || "Admin KAWANEE");
+
+  try {
+    await loadAll();
+    status("status", "");
+  } catch (error) {
+    status("infoStatus", errorText(error), "error");
+  }
+});
+
+/* ATUR PERSISTENSI LOGIN */
+try {
+  await setPersistence(auth, browserLocalPersistence);
+} catch (e) {
+  console.error("Pengaturan sesi login:", e);
+}
+
+/* NAVIGASI TAB */
+document.querySelectorAll("[data-tab]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("[data-tab]").forEach(b => {
+      b.classList.toggle("active", b === btn);
+    });
+
+    ["infoArea", "activityArea", "galleryArea"].forEach(id => {
+      $(id).hidden = id !== btn.dataset.tab;
+    });
+  });
+});
+
+$("refreshButton").addEventListener("click", async () => {
+  try {
+    await loadAll();
+    status("infoStatus", "Data berhasil dimuat ulang.", "success");
+  } catch (e) {
+    status("infoStatus", errorText(e), "error");
+  }
+});
+
+/* MEMUAT SELURUH DATA */
+async function loadAll() {
   requireAdmin();
+
   await Promise.all([
-    loadList('informasi','infoList'),
-    loadList('kegiatan','activityList'),
-    loadList('galeri','galleryList')
+    loadList("informasi", "infoList"),
+    loadList("kegiatan", "activityList"),
+    loadList("galeri", "galleryList")
   ]);
 }
-async function loadList(name,id){
+
+async function loadList(name, id) {
   requireAdmin();
-  const box=$(id);box.replaceChildren(elem('p','Memuat data...','muted'));
-  try{
-    const snap=await getDocs(collection(db,name));
-    const items=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.dibuatPada?.toMillis?.()||0)-(a.dibuatPada?.toMillis?.()||0));
+
+  const box = $(id);
+  box.replaceChildren(elem("p", "Memuat data...", "muted"));
+
+  try {
+    const snap = await getDocs(collection(db, name));
+
+    const items = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) =>
+        (b.dibuatPada?.toMillis?.() || 0) -
+        (a.dibuatPada?.toMillis?.() || 0)
+      );
+
     box.replaceChildren();
-    if(!items.length){box.append(elem('p','Belum ada data.','muted'));return}
-    for(const item of items){
-      const card=elem('article',undefined,'item');
-      card.append(elem('h3',item.judul||'Tanpa judul'));
-      if(name==='informasi')card.append(elem('p',item.isi||''));
-      if(name==='kegiatan'){
-        card.append(elem('small','Tanggal: '+(item.tanggal||'-')));
-        card.append(elem('p',item.deskripsi||''));
-      }
-      if(name==='galeri')card.append(elem('p',item.deskripsi||''));
-      if(name!=='informasi'){
-        const wrap=elem('div',undefined,'photos');
-        photosOf(item).forEach(url=>{
-          const im=elem('img');im.src=url;im.alt=item.judul||'Foto';im.className='item-photo';im.loading='lazy';wrap.append(im);
-        });
-        card.append(wrap,elem('small',photosOf(item).length+' foto'));
-      }
-      const acts=elem('div',undefined,'actions'),edit=elem('button','Edit'),del=elem('button','Hapus','danger');
-      edit.type=del.type='button';
-      edit.addEventListener('click',()=>name==='informasi'?editInfo(item):name==='kegiatan'?editActivity(item):editGallery(item));
-      del.addEventListener('click',()=>deleteItem(name,item));
-      acts.append(edit,del);card.append(acts);box.append(card);
+
+    if (!items.length) {
+      box.append(elem("p", "Belum ada data.", "muted"));
+      return;
     }
-  }catch(e){box.replaceChildren(elem('p','Gagal memuat data: '+errorText(e),'status error'))}
+
+    for (const item of items) {
+      const card = elem("article", undefined, "item");
+
+      card.append(elem("h3", item.judul || "Tanpa judul"));
+
+      if (name === "informasi") {
+        card.append(elem("p", item.isi || ""));
+      }
+
+      if (name === "kegiatan") {
+        card.append(elem("small", "Tanggal: " + (item.tanggal || "-")));
+        card.append(elem("p", item.deskripsi || ""));
+      }
+
+      if (name === "galeri") {
+        card.append(elem("p", item.deskripsi || ""));
+      }
+
+      if (name !== "informasi") {
+        const wrap = elem("div", undefined, "photos");
+
+        photosOf(item).forEach(url => {
+          const im = elem("img");
+          im.src = url;
+          im.alt = item.judul || "Foto";
+          im.className = "item-photo";
+          im.loading = "lazy";
+          wrap.append(im);
+        });
+
+        card.append(
+          wrap,
+          elem("small", photosOf(item).length + " foto")
+        );
+      }
+
+      const acts = elem("div", undefined, "actions");
+      const edit = elem("button", "Edit");
+      const del = elem("button", "Hapus", "danger");
+
+      edit.type = "button";
+      del.type = "button";
+
+      edit.addEventListener("click", () => {
+        if (name === "informasi") editInfo(item);
+        else if (name === "kegiatan") editActivity(item);
+        else editGallery(item);
+      });
+
+      del.addEventListener("click", () => deleteItem(name, item));
+
+      acts.append(edit, del);
+      card.append(acts);
+      box.append(card);
+    }
+  } catch (e) {
+    box.replaceChildren(
+      elem("p", "Gagal memuat data: " + errorText(e), "status error")
+    );
+  }
 }
 
 /* INFORMASI */
-$('infoForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(busy)return;
-  try{
-    requireAdmin();busy=true;busyButton('infoSave',true);
-    const id=$('infoEditId').value,judul=$('infoTitle').value.trim(),isi=$('infoBody').value.trim();
-    if(!judul||!isi)throw Error('Judul dan isi informasi wajib diisi.');
-    if(id)await updateDoc(doc(db,'informasi',id),{judul,isi,diperbaruiPada:serverTimestamp()});
-    else await addDoc(collection(db,'informasi'),{judul,isi,dibuatPada:serverTimestamp()});
-    status('infoStatus',id?'Informasi diperbarui.':'Informasi ditambahkan.','success');
-    resetInfo();await loadList('informasi','infoList');
-  }catch(e){status('infoStatus',errorText(e),'error')}
-  finally{busy=false;busyButton('infoSave',false)}
-});
-function editInfo(x){
-  $('infoEditId').value=x.id;$('infoTitle').value=x.judul||'';$('infoBody').value=x.isi||'';
-  $('infoHeading').textContent='Edit Informasi';$('infoSave').textContent='Simpan Perubahan';
-  $('infoCancel').hidden=false;document.querySelector('[data-tab="infoArea"]').click();
-  $('infoHeading').scrollIntoView({behavior:'smooth'});
-}
-function resetInfo(){
-  $('infoForm').reset();$('infoEditId').value='';
-  $('infoHeading').textContent='Tambah Informasi';$('infoSave').textContent='Simpan Informasi';$('infoCancel').hidden=true;
-}
-$('infoCancel').addEventListener('click',resetInfo);
+$("infoForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (busy) return;
 
-/* FOTO LAMA DAN PREVIEW */
-function renderPhotoChecks(containerId,urls,selectedSet){
-  const box=$(containerId);box.replaceChildren();
-  urls.forEach((url,i)=>{
-    const label=elem('label');label.style.cssText='border:1px solid #dce5dd;border-radius:8px;padding:7px;margin:0;font-weight:normal';
-    const im=elem('img');im.src=url;im.className='thumb';im.alt='Foto tersimpan '+(i+1);
-    const cb=document.createElement('input');cb.type='checkbox';cb.checked=false;cb.style.width='auto';cb.style.margin='8px';
-    cb.addEventListener('change',()=>cb.checked?selectedSet.add(url):selectedSet.delete(url));
-    label.append(im,cb,document.createTextNode(' Hapus foto ini'));box.append(label);
+  try {
+    requireAdmin();
+    busy = true;
+    busyButton("infoSave", true);
+
+    const id = $("infoEditId").value;
+    const judul = $("infoTitle").value.trim();
+    const isi = $("infoBody").value.trim();
+
+    if (!judul || !isi) {
+      throw Error("Judul dan isi informasi wajib diisi.");
+    }
+
+    if (id) {
+      await updateDoc(doc(db, "informasi", id), {
+        judul,
+        isi,
+        diperbaruiPada: serverTimestamp()
+      });
+    } else {
+      await addDoc(collection(db, "informasi"), {
+        judul,
+        isi,
+        dibuatPada: serverTimestamp()
+      });
+    }
+
+    status(
+      "infoStatus",
+      id ? "Informasi diperbarui." : "Informasi ditambahkan.",
+      "success"
+    );
+
+    resetInfo();
+    await loadList("informasi", "infoList");
+  } catch (e) {
+    status("infoStatus", errorText(e), "error");
+  } finally {
+    busy = false;
+    busyButton("infoSave", false);
+  }
+});
+
+function editInfo(x) {
+  $("infoEditId").value = x.id;
+  $("infoTitle").value = x.judul || "";
+  $("infoBody").value = x.isi || "";
+
+  $("infoHeading").textContent = "Edit Informasi";
+  $("infoSave").textContent = "Simpan Perubahan";
+  $("infoCancel").hidden = false;
+
+  document.querySelector('[data-tab="infoArea"]').click();
+  $("infoHeading").scrollIntoView({ behavior: "smooth" });
+}
+
+function resetInfo() {
+  $("infoForm").reset();
+  $("infoEditId").value = "";
+  $("infoHeading").textContent = "Tambah Informasi";
+  $("infoSave").textContent = "Simpan Informasi";
+  $("infoCancel").hidden = true;
+}
+
+$("infoCancel").addEventListener("click", resetInfo);
+
+/* FOTO LAMA DAN PRATINJAU */
+function renderPhotoChecks(containerId, urls, selectedSet) {
+  const box = $(containerId);
+  box.replaceChildren();
+
+  urls.forEach((url, i) => {
+    const label = elem("label");
+    label.style.cssText =
+      "border:1px solid #dce5dd;border-radius:8px;padding:7px;margin:0;font-weight:normal";
+
+    const im = elem("img");
+    im.src = url;
+    im.className = "thumb";
+    im.alt = "Foto tersimpan " + (i + 1);
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = false;
+    cb.style.width = "auto";
+    cb.style.margin = "8px";
+
+    cb.addEventListener("change", () => {
+      if (cb.checked) selectedSet.add(url);
+      else selectedSet.delete(url);
+    });
+
+    label.append(
+      im,
+      cb,
+      document.createTextNode(" Hapus foto ini")
+    );
+
+    box.append(label);
   });
 }
-function previewFiles(inputId,boxId){
-  const box=$(boxId);box.replaceChildren();
-  try{validFiles($(inputId).files)}
-  catch(e){status(inputId==='activityPhotos'?'activityStatus':'galleryStatus',e.message,'error');$(inputId).value='';return}
-  for(const f of $(inputId).files){
-    const url=URL.createObjectURL(f),im=elem('img');im.src=url;im.className='thumb';im.alt=f.name;
-    im.onload=()=>URL.revokeObjectURL(url);box.append(im);
+
+function previewFiles(inputId, boxId) {
+  const box = $(boxId);
+  box.replaceChildren();
+
+  try {
+    validFiles($(inputId).files);
+  } catch (e) {
+    status(
+      inputId === "activityPhotos" ? "activityStatus" : "galleryStatus",
+      e.message,
+      "error"
+    );
+    $(inputId).value = "";
+    return;
+  }
+
+  for (const f of $(inputId).files) {
+    const url = URL.createObjectURL(f);
+    const im = elem("img");
+
+    im.src = url;
+    im.className = "thumb";
+    im.alt = f.name;
+    im.onload = () => URL.revokeObjectURL(url);
+
+    box.append(im);
   }
 }
-$('activityPhotos').addEventListener('change',()=>previewFiles('activityPhotos','activityNewPreview'));
-$('galleryPhotos').addEventListener('change',()=>previewFiles('galleryPhotos','galleryNewPreview'));
+
+$("activityPhotos").addEventListener("change", () => {
+  previewFiles("activityPhotos", "activityNewPreview");
+});
+
+$("galleryPhotos").addEventListener("change", () => {
+  previewFiles("galleryPhotos", "galleryNewPreview");
+});
 
 /* KEGIATAN */
-$('activityForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(busy)return;
-  try{
-    requireAdmin();busy=true;busyButton('activitySave',true);
-    const id=$('activityEditId').value,judul=$('activityTitle').value.trim();
-    const tanggal=$('activityDate').value,deskripsi=$('activityBody').value.trim();
-    const files=validFiles($('activityPhotos').files);
-    if(!judul||!tanggal||!deskripsi)throw Error('Nama, tanggal, dan deskripsi wajib diisi.');
-    let urls=id?[...activityOld]:[];
-    if(!id&&!files.length)throw Error('Pilih minimal satu foto untuk kegiatan baru.');
-    const toUpload=await uploadMany(files,'activityStatus');
-    urls=[...urls.filter(u=>!activityRemove.has(u)),...toUpload];
-    if(urls.length<1)throw Error('Kegiatan harus memiliki minimal satu foto.');
-    if(urls.length>20)throw Error('Maksimal 20 foto per kegiatan.');
-    const data={judul,tanggal,deskripsi,foto:urls[0],fotos:urls};
-    if(id)await updateDoc(doc(db,'kegiatan',id),{...data,diperbaruiPada:serverTimestamp()});
-    else await addDoc(collection(db,'kegiatan'),{...data,dibuatPada:serverTimestamp()});
-    status('activityStatus',id?'Kegiatan diperbarui.':'Kegiatan ditambahkan.','success');
-    resetActivity();await loadList('kegiatan','activityList');
-  }catch(e){status('activityStatus',errorText(e),'error')}
-  finally{busy=false;busyButton('activitySave',false)}
+$("activityForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (busy) return;
+
+  try {
+    requireAdmin();
+    busy = true;
+    busyButton("activitySave", true);
+
+    const id = $("activityEditId").value;
+    const judul = $("activityTitle").value.trim();
+    const tanggal = $("activityDate").value;
+    const deskripsi = $("activityBody").value.trim();
+    const files = validFiles($("activityPhotos").files);
+
+    if (!judul || !tanggal || !deskripsi) {
+      throw Error("Nama, tanggal, dan deskripsi wajib diisi.");
+    }
+
+    let urls = id ? [...activityOld] : [];
+
+    if (!id && !files.length) {
+      throw Error("Pilih minimal satu foto untuk kegiatan baru.");
+    }
+
+    const toUpload = await uploadMany(files, "activityStatus");
+
+    urls = [
+      ...urls.filter(u => !activityRemove.has(u)),
+      ...toUpload
+    ];
+
+    if (urls.length < 1) {
+      throw Error("Kegiatan harus memiliki minimal satu foto.");
+    }
+
+    if (urls.length > 20) {
+      throw Error("Maksimal 20 foto per kegiatan.");
+    }
+
+    const data = {
+      judul,
+      tanggal,
+      deskripsi,
+      foto: urls[0],
+      fotos: urls
+    };
+
+    if (id) {
+      await updateDoc(doc(db, "kegiatan", id), {
+        ...data,
+        diperbaruiPada: serverTimestamp()
+      });
+    } else {
+      await addDoc(collection(db, "kegiatan"), {
+        ...data,
+        dibuatPada: serverTimestamp()
+      });
+    }
+
+    status(
+      "activityStatus",
+      id ? "Kegiatan diperbarui." : "Kegiatan ditambahkan.",
+      "success"
+    );
+
+    resetActivity();
+    await loadList("kegiatan", "activityList");
+  } catch (e) {
+    status("activityStatus", errorText(e), "error");
+  } finally {
+    busy = false;
+    busyButton("activitySave", false);
+  }
 });
-function editActivity(x){
-  activityOld=photosOf(x);activityRemove=new Set();
-  $('activityEditId').value=x.id;$('activityTitle').value=x.judul||'';
-  $('activityDate').value=x.tanggal||'';$('activityBody').value=x.deskripsi||'';
-  $('activityPhotos').value='';$('activityHeading').textContent='Edit Kegiatan';
-  $('activitySave').textContent='Simpan Perubahan';$('activityCancel').hidden=false;
-  renderPhotoChecks('activityOldPhotos',activityOld,activityRemove);$('activityNewPreview').replaceChildren();
-  document.querySelector('[data-tab="activityArea"]').click();$('activityHeading').scrollIntoView({behavior:'smooth'});
+
+function editActivity(x) {
+  activityOld = photosOf(x);
+  activityRemove = new Set();
+
+  $("activityEditId").value = x.id;
+  $("activityTitle").value = x.judul || "";
+  $("activityDate").value = x.tanggal || "";
+  $("activityBody").value = x.deskripsi || "";
+  $("activityPhotos").value = "";
+
+  $("activityHeading").textContent = "Edit Kegiatan";
+  $("activitySave").textContent = "Simpan Perubahan";
+  $("activityCancel").hidden = false;
+
+  renderPhotoChecks("activityOldPhotos", activityOld, activityRemove);
+  $("activityNewPreview").replaceChildren();
+
+  document.querySelector('[data-tab="activityArea"]').click();
+  $("activityHeading").scrollIntoView({ behavior: "smooth" });
 }
-function resetActivity(){
-  $('activityForm').reset();$('activityEditId').value='';activityOld=[];activityRemove=new Set();
-  $('activityOldPhotos').replaceChildren();$('activityNewPreview').replaceChildren();
-  $('activityHeading').textContent='Tambah Kegiatan';$('activitySave').textContent='Simpan Kegiatan';$('activityCancel').hidden=true;
+
+function resetActivity() {
+  $("activityForm").reset();
+  $("activityEditId").value = "";
+  activityOld = [];
+  activityRemove = new Set();
+
+  $("activityOldPhotos").replaceChildren();
+  $("activityNewPreview").replaceChildren();
+
+  $("activityHeading").textContent = "Tambah Kegiatan";
+  $("activitySave").textContent = "Simpan Kegiatan";
+  $("activityCancel").hidden = true;
 }
-$('activityCancel').addEventListener('click',resetActivity);
+
+$("activityCancel").addEventListener("click", resetActivity);
 
 /* ALBUM GALERI TERPISAH */
-$('galleryForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(busy)return;
-  try{
-    requireAdmin();busy=true;busyButton('gallerySave',true);
-    const id=$('galleryEditId').value,judul=$('galleryTitle').value.trim();
-    const deskripsi=$('galleryBody').value.trim(),files=validFiles($('galleryPhotos').files);
-    if(!judul)throw Error('Judul album wajib diisi.');
-    let urls=id?[...galleryOld]:[];
-    if(!id&&!files.length)throw Error('Album baru wajib memiliki minimal satu foto.');
-    const newUrls=await uploadMany(files,'galleryStatus');
-    urls=[...urls.filter(u=>!galleryRemove.has(u)),...newUrls];
-    if(!urls.length)throw Error('Album harus memiliki minimal satu foto.');
-    if(urls.length>20)throw Error('Maksimal 20 foto per album.');
-    const data={judul,deskripsi,foto:urls[0],fotos:urls};
-    if(id)await updateDoc(doc(db,'galeri',id),{...data,diperbaruiPada:serverTimestamp()});
-    else await addDoc(collection(db,'galeri'),{...data,dibuatPada:serverTimestamp()});
-    status('galleryStatus',id?'Album diperbarui.':'Album ditambahkan.','success');
-    resetGallery();await loadList('galeri','galleryList');
-  }catch(e){status('galleryStatus',errorText(e),'error')}
-  finally{busy=false;busyButton('gallerySave',false)}
+$("galleryForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (busy) return;
+
+  try {
+    requireAdmin();
+    busy = true;
+    busyButton("gallerySave", true);
+
+    const id = $("galleryEditId").value;
+    const judul = $("galleryTitle").value.trim();
+    const deskripsi = $("galleryBody").value.trim();
+    const files = validFiles($("galleryPhotos").files);
+
+    if (!judul) {
+      throw Error("Judul album wajib diisi.");
+    }
+
+    let urls = id ? [...galleryOld] : [];
+
+    if (!id && !files.length) {
+      throw Error("Album baru wajib memiliki minimal satu foto.");
+    }
+
+    const newUrls = await uploadMany(files, "galleryStatus");
+
+    urls = [
+      ...urls.filter(u => !galleryRemove.has(u)),
+      ...newUrls
+    ];
+
+    if (!urls.length) {
+      throw Error("Album harus memiliki minimal satu foto.");
+    }
+
+    if (urls.length > 20) {
+      throw Error("Maksimal 20 foto per album.");
+    }
+
+    const data = {
+      judul,
+      deskripsi,
+      foto: urls[0],
+      fotos: urls
+    };
+
+    if (id) {
+      await updateDoc(doc(db, "galeri", id), {
+        ...data,
+        diperbaruiPada: serverTimestamp()
+      });
+    } else {
+      await addDoc(collection(db, "galeri"), {
+        ...data,
+        dibuatPada: serverTimestamp()
+      });
+    }
+
+    status(
+      "galleryStatus",
+      id ? "Album diperbarui." : "Album ditambahkan.",
+      "success"
+    );
+
+    resetGallery();
+    await loadList("galeri", "galleryList");
+  } catch (e) {
+    status("galleryStatus", errorText(e), "error");
+  } finally {
+    busy = false;
+    busyButton("gallerySave", false);
+  }
 });
-function editGallery(x){
-  galleryOld=photosOf(x);galleryRemove=new Set();
-  $('galleryEditId').value=x.id;$('galleryTitle').value=x.judul||'';
-  $('galleryBody').value=x.deskripsi||'';$('galleryPhotos').value='';
-  $('galleryHeading').textContent='Edit Album Galeri';$('gallerySave').textContent='Simpan Perubahan';
-  $('galleryCancel').hidden=false;renderPhotoChecks('galleryOldPhotos',galleryOld,galleryRemove);
-  $('galleryNewPreview').replaceChildren();
-  document.querySelector('[data-tab="galleryArea"]').click();$('galleryHeading').scrollIntoView({behavior:'smooth'});
+
+function editGallery(x) {
+  galleryOld = photosOf(x);
+  galleryRemove = new Set();
+
+  $("galleryEditId").value = x.id;
+  $("galleryTitle").value = x.judul || "";
+  $("galleryBody").value = x.deskripsi || "";
+  $("galleryPhotos").value = "";
+
+  $("galleryHeading").textContent = "Edit Album Galeri";
+  $("gallerySave").textContent = "Simpan Perubahan";
+  $("galleryCancel").hidden = false;
+
+  renderPhotoChecks("galleryOldPhotos", galleryOld, galleryRemove);
+  $("galleryNewPreview").replaceChildren();
+
+  document.querySelector('[data-tab="galleryArea"]').click();
+  $("galleryHeading").scrollIntoView({ behavior: "smooth" });
 }
-function resetGallery(){
-  $('galleryForm').reset();$('galleryEditId').value='';galleryOld=[];galleryRemove=new Set();
-  $('galleryOldPhotos').replaceChildren();$('galleryNewPreview').replaceChildren();
-  $('galleryHeading').textContent='Tambah Album Galeri';$('gallerySave').textContent='Simpan Album';$('galleryCancel').hidden=true;
+
+function resetGallery() {
+  $("galleryForm").reset();
+  $("galleryEditId").value = "";
+  galleryOld = [];
+  galleryRemove = new Set();
+
+  $("galleryOldPhotos").replaceChildren();
+  $("galleryNewPreview").replaceChildren();
+
+  $("galleryHeading").textContent = "Tambah Album Galeri";
+  $("gallerySave").textContent = "Simpan Album";
+  $("galleryCancel").hidden = true;
 }
-$('galleryCancel').addEventListener('click',resetGallery);
+
+$("galleryCancel").addEventListener("click", resetGallery);
 
 /* HAPUS DATA */
-async function deleteItem(name,item){
-  const statusId=name==='informasi'?'infoStatus':name==='kegiatan'?'activityStatus':'galleryStatus';
-  const listId=name==='informasi'?'infoList':name==='kegiatan'?'activityList':'galleryList';
-  try{
+async function deleteItem(name, item) {
+  const statusId =
+    name === "informasi" ? "infoStatus" :
+    name === "kegiatan" ? "activityStatus" : "galleryStatus";
+
+  const listId =
+    name === "informasi" ? "infoList" :
+    name === "kegiatan" ? "activityList" : "galleryList";
+
+  try {
     requireAdmin();
-    if(!confirm(`Yakin menghapus "${item.judul||'tanpa judul'}"?`))return;
-    await deleteDoc(doc(db,name,item.id));
-    status(statusId,'Data berhasil dihapus.','success');await loadList(name,listId);
-  }catch(e){status(statusId,'Gagal menghapus: '+errorText(e),'error')}
+
+    if (!confirm(`Yakin menghapus "${item.judul || "tanpa judul"}"?`)) {
+      return;
+    }
+
+    await deleteDoc(doc(db, name, item.id));
+
+    status(statusId, "Data berhasil dihapus.", "success");
+    await loadList(name, listId);
+  } catch (e) {
+    status(statusId, "Gagal menghapus: " + errorText(e), "error");
+  }
 }
 </script>
 </body>
